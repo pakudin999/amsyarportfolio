@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <title>Professional Creative Portfolio</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FFD000",
+                        "primary-dark": "#E6C200",
+                        "background-dark": "#000000",
+                        "surface-dark": "#121212",
+                        "text-main-dark": "#FFFFFF",
+                        "text-sec-dark": "#9CA3AF"
+                    },
+                    fontFamily: {
+                        display: "Manrope",
+                        sans: ["Manrope", "sans-serif"]
+                    }
+                }
+            }
+        };
+    </script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none; width: 0px; background: transparent; }
+        * { -ms-overflow-style: none; scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        body { min-height: 100vh; background-color: #000; touch-action: pan-x pan-y; }
+        html { scroll-behavior: smooth; touch-action: pan-x pan-y; }
+        
+        .fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .admin-input {
+            background-color: #ffffff; border: 1px solid #d4d4d8; color: #000000;
+            padding: 0.75rem; border-radius: 0.75rem; width: 100%; font-size: 0.875rem; transition: all 0.2s;
+        }
+        .admin-input:focus { outline: none; border-color: #FFD000; box-shadow: 0 0 0 2px rgba(255, 208, 0, 0.2); }
+
+        /* Loading Spinner */
+        .loader { border: 4px solid #333; border-radius: 50%; border-top: 4px solid #FFD000; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="bg-black text-white font-sans antialiased transition-colors duration-200 selection:bg-primary selection:text-black">
+
+    <!-- Loading Overlay -->
+    <div id="initial-loader" class="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center">
+        <div class="loader mb-4"></div>
+        <p class="text-zinc-500 text-xs font-mono animate-pulse">SYNCING DATA...</p>
+    </div>
+
+    <!-- PUBLIC VIEW -->
+    <div id="public-view" class="min-h-screen bg-black transition-opacity duration-300">
+        <nav class="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-md border-b border-zinc-900">
+            <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between relative">
+                <button onclick="openAdminLogin()" class="w-9 h-9 flex items-center justify-center rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-primary hover:border-primary/50 transition active:scale-95">
+                    <span class="material-icons-outlined text-lg">admin_panel_settings</span>
+                </button>
+                <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-extrabold text-lg tracking-tight text-white cursor-pointer" onclick="window.scrollTo(0,0)">Amsyar'z<span class="text-primary">.</span></span>
+                <div class="flex gap-2">
+                    <button class="p-2 -mr-2 rounded-full hover:bg-zinc-900 transition text-white"><span class="material-icons-outlined text-2xl">more_vert</span></button>
+                </div>
+            </div>
+        </nav>
+
+        <div class="max-w-md mx-auto pt-14 pb-20 bg-black min-h-screen relative shadow-2xl shadow-zinc-900/20">
+            <header class="relative mb-8 bg-black">
+                <div class="h-36 w-full overflow-hidden relative bg-zinc-900 border-b border-zinc-800">
+                    <img id="header-img-display" alt="Header Background" class="w-full h-full object-cover transition-all duration-500" src="" onerror="this.src='https://placehold.co/600x200/1a1a1a/FFF?text=...';">
+                </div>
+                <div class="px-5">
+                    <div class="relative -mt-16 mb-4 flex justify-start z-20">
+                        <div class="relative group">
+                            <div class="w-28 h-28 rounded-full border-[6px] border-black shadow-2xl bg-zinc-800 flex items-center justify-center overflow-hidden">
+                                 <img id="profile-img-display" class="w-full h-full object-cover hidden" src="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                 <div class="w-full h-full flex items-center justify-center bg-zinc-800"><span class="material-icons-outlined text-5xl text-zinc-500">person</span></div>
+                            </div>
+                            <div class="absolute bottom-2 right-2 w-5 h-5 bg-primary border-4 border-black rounded-full" title="Online"></div>
+                        </div>
+                    </div>
+                    <div class="text-left space-y-2">
+                        <h1 class="text-3xl font-black tracking-tight text-white">Amsyar'z<span class="text-primary">.</span></h1>
+                        <div class="flex flex-col gap-1 items-start">
+                            <p class="text-sm font-semibold text-zinc-400 flex items-center justify-start gap-1.5"><span class="material-icons-outlined text-primary text-lg">palette</span> Senior Graphic Designer</p>
+                            <p class="text-xs text-zinc-500 flex items-center justify-start gap-1.5"><span class="material-icons-outlined text-primary text-base">location_on</span> Johor Bahru, Malaysia</p>
+                        </div>
+                        <div class="pt-3">
+                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">
+                                <span class="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></span> Available for Freelance
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 mt-8">
+                        <button onclick="alert('Opening Social Media links...')" class="flex-1 bg-primary hover:bg-yellow-400 text-black font-black py-3.5 px-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.15)] active:scale-95 transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide"><span class="material-icons-outlined text-xl">public</span> MEDIA SOCIAL</button>
+                        <button onclick="openWhatsAppModal()" class="flex-1 bg-transparent border-2 border-primary hover:bg-primary/10 text-white font-bold py-3.5 px-4 rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide"><span class="material-icons-outlined text-xl text-primary">chat</span> WHATSAPP</button>
+                    </div>
+                </div>
+            </header>
+
+            <section class="px-5 mb-8">
+                <div class="bg-zinc-900/50 rounded-2xl p-5 border border-zinc-800/80 backdrop-blur-sm">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4 ml-1">Engagement Types</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between group cursor-pointer hover:bg-zinc-800/50 p-2 -mx-2 rounded-lg transition-colors">
+                            <div class="flex items-center gap-4">
+                                <div class="p-3 bg-primary/10 text-primary rounded-xl border border-primary/10"><span class="material-icons-outlined text-2xl">edit_note</span></div>
+                                <div><p class="font-bold text-white text-sm">Freelance Project</p><p class="text-xs text-zinc-500 mt-0.5">Short-term contracts &amp; gigs</p></div>
+                            </div>
+                            <span class="material-icons-outlined text-zinc-600 group-hover:text-primary transition-colors">arrow_forward</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div id="public-tabs" class="sticky top-14 bg-black/95 backdrop-blur z-40 border-b border-zinc-900 mb-6 transition-all duration-300">
+                <div class="flex items-center px-6 gap-8 overflow-x-auto no-scrollbar">
+                    <button id="tab-about" onclick="switchTab('about')" class="py-4 text-sm font-medium text-zinc-500 hover:text-white transition whitespace-nowrap border-b-2 border-transparent">About</button>
+                    <button id="tab-portfolio" onclick="switchTab('portfolio')" class="py-4 text-sm font-bold text-white border-b-2 border-primary relative whitespace-nowrap">Poster</button>
+                    <button id="tab-logo" onclick="switchTab('logo')" class="py-4 text-sm font-medium text-zinc-500 hover:text-white transition whitespace-nowrap border-b-2 border-transparent">Logo</button>
+                </div>
+            </div>
+
+            <main class="min-h-[300px]">
+                <div id="content-portfolio" class="px-2 pb-20 fade-in"><div class="grid grid-cols-3 gap-2" id="grid-poster"></div></div>
+                <div id="content-logo" class="hidden px-2 pb-20 fade-in"><div class="grid grid-cols-3 gap-2" id="grid-logo"></div></div>
+                <div id="content-about" class="hidden px-6 pb-10 fade-in">
+                    <div class="space-y-8">
+                        <div class="space-y-3">
+                            <h3 class="text-lg font-bold text-white">Hello, I'm Amsyar'z! 👋</h3>
+                            <p class="text-zinc-400 leading-relaxed text-sm">I am a Senior Graphic Designer based in Johor Bahru with over 6 years of experience...</p>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 border-t border-zinc-800 pt-6">
+                            <div class="text-center"><h4 class="text-2xl font-black text-white">6+</h4><p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Years Exp.</p></div>
+                            <div class="text-center border-l border-zinc-800"><h4 class="text-2xl font-black text-white">120+</h4><p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Projects</p></div>
+                            <div class="text-center border-l border-zinc-800"><h4 class="text-2xl font-black text-white">50+</h4><p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Clients</p></div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer class="mt-12 border-t border-zinc-900 py-10 px-6 mx-auto max-w-md">
+                <div class="text-center space-y-6"><p class="text-xs text-zinc-600 font-medium tracking-wide">© 2024 Amsyar'z. All rights reserved.</p></div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- ADMIN VIEW (NEW UI) -->
+    <div id="admin-view" class="hidden min-h-screen bg-zinc-950 text-white pb-20">
+        <nav class="fixed top-0 w-full z-50 bg-zinc-950/95 backdrop-blur-md border-b border-primary/50 shadow-lg shadow-primary/10">
+            <div class="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="material-icons-outlined text-primary text-2xl">cloud_sync</span>
+                    <div>
+                        <h1 class="font-black text-lg text-white leading-none">Cloud Admin</h1>
+                        <p class="text-[10px] text-zinc-400 font-mono mt-0.5">Synced with System</p>
+                    </div>
+                </div>
+                <button onclick="logoutAdmin()" class="flex items-center gap-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 px-3 py-1.5 rounded-lg border border-red-500/20 transition text-xs font-bold"><span class="material-icons-outlined text-sm">logout</span> EXIT</button>
+            </div>
+        </nav>
+
+        <div class="max-w-md mx-auto pt-24 px-5 space-y-6">
+            
+            <!-- ADMIN TABS -->
+            <div class="flex bg-zinc-900 p-1 rounded-xl border border-zinc-800 mb-6">
+                <button id="btn-admin-global" onclick="switchAdminTab('global')" class="flex-1 py-2 text-xs font-bold rounded-lg bg-primary text-black transition-all">Global</button>
+                <button id="btn-admin-poster" onclick="switchAdminTab('poster')" class="flex-1 py-2 text-xs font-bold rounded-lg text-zinc-500 hover:text-white transition-all">Poster</button>
+                <button id="btn-admin-logo" onclick="switchAdminTab('logo')" class="flex-1 py-2 text-xs font-bold rounded-lg text-zinc-500 hover:text-white transition-all">Logo</button>
+            </div>
+
+            <!-- TAB 1: GLOBAL -->
+            <div id="admin-panel-global" class="fade-in space-y-6">
+                <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
+                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">image</span> Main Assets</h3>
+                    <div class="space-y-4">
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Header Image URL</label><input type="text" id="admin-header-url" class="admin-input" placeholder="Paste Google Drive link here..."></div>
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Profile Picture URL</label><input type="text" id="admin-profile-url" class="admin-input" placeholder="Paste Google Drive link here..."></div>
+                    </div>
+                </div>
+                <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
+                    <h3 class="text-green-500 font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">chat</span> Contact</h3>
+                    <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">WhatsApp Number</label><input type="text" id="admin-whatsapp" class="admin-input" placeholder="e.g. 60123456789"></div>
+                </div>
+                
+                <!-- SAVE BUTTON (Global) -->
+                <div class="pt-4 pb-10">
+                    <button onclick="saveAdminSettings()" class="w-full bg-primary hover:bg-yellow-400 text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
+                        <span class="material-icons-outlined">cloud_upload</span> Save &amp; Sync
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 2: POSTER -->
+            <div id="admin-panel-poster" class="hidden fade-in space-y-6">
+                <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
+                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">folder</span> Poster Collection</h3>
+                    <div id="admin-poster-container" class="grid gap-4"></div>
+                </div>
+                
+                <!-- SAVE BUTTON (Poster) -->
+                <div class="pt-4 pb-10">
+                    <button onclick="saveAdminSettings()" class="w-full bg-primary hover:bg-yellow-400 text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
+                        <span class="material-icons-outlined">cloud_upload</span> Save &amp; Sync
+                    </button>
+                </div>
+            </div>
+
+            <!-- TAB 3: LOGO -->
+            <div id="admin-panel-logo" class="hidden fade-in space-y-6">
+                <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
+                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">verified</span> Logo Collection</h3>
+                    <div id="admin-logo-container" class="grid gap-4"></div>
+                </div>
+
+                <!-- SAVE BUTTON (Logo) -->
+                <div class="pt-4 pb-10">
+                    <button onclick="saveAdminSettings()" class="w-full bg-primary hover:bg-yellow-400 text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide">
+                        <span class="material-icons-outlined">cloud_upload</span> Save &amp; Sync
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODALS -->
+    <div id="image-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-[6px] hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0" onclick="closeModal()">
+        <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] w-10 h-10 flex items-center justify-center bg-black/50 text-white rounded-full backdrop-blur-md hover:bg-white/20 transition active:scale-95 border border-white/10"><span class="material-icons-outlined text-xl">close</span></button>
+        <div class="relative w-full max-w-sm transform scale-95 transition-all duration-300" id="modal-container" onclick="event.stopPropagation()">
+            <div class="bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl border border-zinc-800">
+                <div class="px-4 py-3 border-b border-zinc-800 bg-zinc-900 flex justify-between items-center"><span class="text-sm font-bold text-white">Preview</span><span id="modal-badge" class="hidden text-[10px] font-black px-2 py-0.5 rounded text-black bg-primary">BADGE</span></div>
+                <div class="aspect-[4/5] bg-black flex items-center justify-center relative overflow-hidden group">
+                    <img id="modal-img-real" class="w-full h-full object-cover hidden" src=""><span id="modal-icon" class="material-icons-outlined text-zinc-800 text-8xl group-hover:scale-110 transition-transform duration-500">image</span>
+                </div>
+                <div class="p-4 bg-zinc-900">
+                    <h3 id="modal-title" class="text-lg font-bold text-white mb-1">Project Details</h3>
+                    <p id="modal-desc" class="text-xs text-zinc-400 leading-relaxed">No description available.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="whatsapp-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0">
+        <div class="bg-zinc-900 rounded-2xl p-6 w-full max-w-sm border border-zinc-800 shadow-2xl transform scale-95 transition-all duration-300" id="whatsapp-modal-container">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-primary/20"><span class="material-icons-outlined text-3xl text-primary">whatsapp</span></div>
+                <h3 class="text-xl font-bold text-white mb-2">Connect on WhatsApp</h3><p class="text-zinc-400 text-sm">Start conversation with Amsyar'z?</p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="closeWhatsAppModal()" class="flex-1 py-3 px-4 rounded-xl border border-zinc-700 text-zinc-300 font-bold text-sm hover:bg-zinc-800 transition">Cancel</button>
+                <button onclick="proceedWhatsApp()" class="flex-1 py-3 px-4 rounded-xl bg-primary text-black font-bold text-sm hover:bg-yellow-400 shadow-[0_0_15px_rgba(255,208,0,0.2)] transition">Start Chat</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="admin-modal" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0">
+        <div class="bg-zinc-900 rounded-2xl p-6 w-full max-w-sm border border-zinc-800 shadow-[0_0_30px_rgba(0,0,0,0.5)] transform scale-95 transition-all duration-300" id="admin-modal-container">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-700"><span class="material-icons-outlined text-3xl text-zinc-400">lock</span></div>
+                <h3 class="text-xl font-bold text-white mb-1">Admin Access</h3><p class="text-zinc-500 text-xs">Enter password to manage portfolio.</p>
+            </div>
+            <div class="space-y-4">
+                <input type="password" id="admin-password-input" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none text-center tracking-widest" placeholder="••••••••">
+                <p id="admin-error" class="text-red-500 text-xs text-center hidden font-bold">Incorrect password!</p>
+                <div class="flex gap-3">
+                    <button onclick="closeAdminLogin()" class="flex-1 py-3 px-4 rounded-xl border border-zinc-700 text-zinc-300 font-bold text-sm hover:bg-zinc-800 transition">Cancel</button>
+                    <button onclick="submitAdminLogin()" class="flex-1 py-3 px-4 rounded-xl bg-white text-black font-bold text-sm hover:bg-zinc-200 transition">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURATION (PENTING!)
+        // ============================================
+        // Masukkan Web App URL dari Google Apps Script anda di sini:
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7yVMv7UI57JtshnPJf9j2HTSpBWFaL_Ga2kLLuuH8-sMtmzuBc0yNg9qJrATQmEkN/exec"; 
+        
+        let appData = {
+            adminPassword: "amsyar'z", 
+            headerUrl: "",
+            profileUrl: "",
+            whatsappNumber: "", 
+            posters: Array(9).fill(""),
+            posterTitles: Array(9).fill(""),
+            posterDescs: Array(9).fill(""),
+            logos: Array(9).fill(""),
+            logoTitles: Array(9).fill(""),
+            logoDescs: Array(9).fill("")
+        };
+
+        window.onload = function() {
+            renderGrids();
+            renderAdminInputs(); 
+            fetchFromCloud();
+        };
+
+        // --- CLOUD SYNC FUNCTIONS ---
+        async function fetchFromCloud() {
+            if(!GOOGLE_SCRIPT_URL) {
+                document.getElementById('initial-loader').classList.add('hidden');
+                return;
+            }
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, { method: "GET", mode: "cors", credentials: "omit", redirect: "follow", headers: { "Content-Type": "text/plain;charset=utf-8" } });
+                const data = await response.json();
+                
+                if(data) {
+                    if(data.adminPassword) appData.adminPassword = data.adminPassword;
+                    appData.headerUrl = data.headerUrl || "";
+                    appData.profileUrl = data.profileUrl || "";
+                    appData.whatsappNumber = data.whatsappNumber || ""; 
+                    
+                    for(let i=0; i<9; i++) {
+                        appData.posters[i] = data['poster_' + i] || "";
+                        appData.posterTitles[i] = data['poster_title_' + i] || "";
+                        appData.posterDescs[i] = data['poster_desc_' + i] || "";
+                        
+                        appData.logos[i] = data['logo_' + i] || "";
+                        appData.logoTitles[i] = data['logo_title_' + i] || "";
+                        appData.logoDescs[i] = data['logo_desc_' + i] || "";
+                    }
+                    loadImagesFromData();
+                }
+            } catch (error) { console.error("Failed to fetch from cloud:", error); } 
+            finally { document.getElementById('initial-loader').classList.add('hidden'); }
+        }
+
+        async function saveToCloud() {
+            if(!GOOGLE_SCRIPT_URL) { alert("Error: Google Script URL is missing in the code!"); return; }
+
+            // Handle UI feedback for ALL save buttons
+            const btns = document.querySelectorAll('button[onclick="saveAdminSettings()"]');
+            btns.forEach(btn => {
+                btn.innerHTML = `<span class="material-icons-outlined animate-spin">sync</span> Saving...`;
+                btn.disabled = true;
+                btn.classList.add('opacity-50');
+            });
+
+            const payload = {
+                headerUrl: appData.headerUrl,
+                profileUrl: appData.profileUrl,
+                whatsappNumber: appData.whatsappNumber,
+                posters: appData.posters,
+                posterTitles: appData.posterTitles,
+                posterDescs: appData.posterDescs,
+                logos: appData.logos,
+                logoTitles: appData.logoTitles,
+                logoDescs: appData.logoDescs
+            };
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', credentials: 'omit', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+                alert("Success! Data synced to Google Sheet.");
+            } catch (error) { console.error("Save failed:", error); alert("Failed to save to cloud."); } 
+            finally {
+                btns.forEach(btn => {
+                    btn.innerHTML = `<span class="material-icons-outlined">cloud_upload</span> Save & Sync`;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50');
+                });
+            }
+        }
+
+        // --- GOOGLE DRIVE CONVERTER ---
+        function convertGoogleDriveLink(url) {
+            if (!url) return "";
+            if (url.includes('lh3.googleusercontent.com') || url.includes('googleusercontent.com')) return url;
+            let id = "";
+            const parts = url.split('/');
+            const dIndex = parts.indexOf('d');
+            if (dIndex !== -1 && parts.length > dIndex + 1) { id = parts[dIndex + 1]; } 
+            else if (url.indexOf('id=') !== -1) { const match = url.match(/[\?&]id=([^&#]*)/); if (match) id = match[1]; }
+            if (id) return `https://lh3.googleusercontent.com/d/${id}`;
+            return url;
+        }
+
+        // --- VIEW HELPERS ---
+        function renderGrids() {
+            document.getElementById('grid-poster').innerHTML = generateGridHTML('poster');
+            document.getElementById('grid-logo').innerHTML = generateGridHTML('logo');
+        }
+
+        function generateGridHTML(type) {
+            let html = '';
+            for(let i = 0; i < 9; i++) {
+                let badgeHTML = '', borderClass = 'border border-zinc-800', iconColor = 'text-zinc-800', iconType = 'image';
+                if (i === 0) { 
+                    badgeHTML = `<div class="absolute top-0 left-0 bg-gradient-to-br from-yellow-400 to-yellow-600 text-black text-[10px] font-black px-2 py-1 rounded-br-lg shadow-lg z-10 flex items-center gap-1"><span class="material-icons-outlined text-[14px]">emoji_events</span> 1st</div>`;
+                    borderClass = 'border-2 border-yellow-500/60 shadow-[0_0_15px_rgba(234,179,8,0.15)]'; iconColor = 'text-yellow-600/50'; iconType = 'emoji_events';
+                } else if (i === 1) {
+                    badgeHTML = `<div class="absolute top-0 left-0 bg-gradient-to-br from-gray-300 to-gray-500 text-black text-[10px] font-black px-2 py-1 rounded-br-lg shadow-lg z-10 flex items-center gap-1"><span class="material-icons-outlined text-[14px]">military_tech</span> 2nd</div>`;
+                    borderClass = 'border-2 border-zinc-400/50'; iconColor = 'text-zinc-500/50'; iconType = 'military_tech';
+                } else if (i === 2) {
+                    badgeHTML = `<div class="absolute top-0 left-0 bg-gradient-to-br from-orange-400 to-orange-700 text-white text-[10px] font-black px-2 py-1 rounded-br-lg shadow-lg z-10 flex items-center gap-1"><span class="material-icons-outlined text-[14px]">workspace_premium</span> 3rd</div>`;
+                    borderClass = 'border-2 border-orange-700/50'; iconColor = 'text-orange-700/50'; iconType = 'workspace_premium';
+                }
+                html += `<div onclick="openModal('${type}', ${i})" class="relative overflow-hidden aspect-[4/5] bg-zinc-900 rounded-lg ${borderClass} flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer group">${badgeHTML}<img id="img-${type}-${i}" class="absolute inset-0 w-full h-full object-cover hidden" src=""><span class="material-icons-outlined ${iconColor} text-3xl group-hover:scale-110 transition-transform">${iconType}</span></div>`;
+            }
+            return html;
+        }
+
+        function loadImagesFromData() {
+            document.getElementById('header-img-display').src = appData.headerUrl || "https://placehold.co/600x200/1a1a1a/FFF?text=No+Image";
+            const profileImg = document.getElementById('profile-img-display');
+            if (appData.profileUrl) { profileImg.src = appData.profileUrl; profileImg.classList.remove('hidden'); profileImg.nextElementSibling.style.display = 'none'; } 
+            else { profileImg.classList.add('hidden'); profileImg.nextElementSibling.style.display = 'flex'; }
+            
+            appData.posters.forEach((url, i) => { const img = document.getElementById(`img-poster-${i}`); if(url) { img.src = url; img.classList.remove('hidden'); } else { img.classList.add('hidden'); } });
+            appData.logos.forEach((url, i) => { const img = document.getElementById(`img-logo-${i}`); if(url) { img.src = url; img.classList.remove('hidden'); } else { img.classList.add('hidden'); } });
+        }
+
+        function renderAdminInputs() {
+            const generateInputs = (type) => {
+                let html = '';
+                for(let i=0; i<9; i++) {
+                    let label = `Slot ${i+1}`;
+                    let bgClass = "bg-zinc-800/50 border-zinc-700/50";
+                    if(i===0) { label = `🏆 Slot 1 (Champion)`; bgClass = "bg-yellow-900/10 border-yellow-500/30"; }
+                    if(i===1) { label = `🥈 Slot 2 (Silver)`; bgClass = "bg-zinc-800 border-zinc-500/30"; }
+                    if(i===2) { label = `🥉 Slot 3 (Bronze)`; bgClass = "bg-orange-900/10 border-orange-500/30"; }
+                    
+                    html += `
+                    <div class="p-3 ${bgClass} rounded-xl border mb-2">
+                        <label class="text-xs font-bold text-zinc-400 mb-2 block flex items-center gap-1">${label}</label>
+                        <input type="text" id="admin-${type}-${i}" class="admin-input mb-2" placeholder="Image Link (Google Drive)...">
+                        <input type="text" id="admin-${type}-title-${i}" class="admin-input mb-2 text-xs" placeholder="Project Title...">
+                        <textarea id="admin-${type}-desc-${i}" class="admin-input text-xs h-16" placeholder="Short description..."></textarea>
+                    </div>`;
+                }
+                return html;
+            };
+            document.getElementById('admin-poster-container').innerHTML = generateInputs('poster');
+            document.getElementById('admin-logo-container').innerHTML = generateInputs('logo');
+        }
+
+        // --- ADMIN TABS LOGIC ---
+        function switchAdminTab(tabName) {
+            const panels = ['global', 'poster', 'logo'];
+            panels.forEach(p => {
+                const btn = document.getElementById(`btn-admin-${p}`);
+                const panel = document.getElementById(`admin-panel-${p}`);
+                
+                if (p === tabName) {
+                    btn.classList.remove('text-zinc-500', 'hover:text-white');
+                    btn.classList.add('bg-primary', 'text-black');
+                    panel.classList.remove('hidden');
+                } else {
+                    btn.classList.add('text-zinc-500', 'hover:text-white');
+                    btn.classList.remove('bg-primary', 'text-black');
+                    panel.classList.add('hidden');
+                }
+            });
+        }
+
+        // --- ADMIN AUTH & LOGIC ---
+        function openAdminLogin() {
+            const modal = document.getElementById('admin-modal'), container = document.getElementById('admin-modal-container');
+            modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); container.classList.remove('scale-95'); container.classList.add('scale-100'); }, 10);
+            document.getElementById('admin-password-input').value = ''; document.getElementById('admin-error').classList.add('hidden');
+        }
+        function closeAdminLogin() {
+            const modal = document.getElementById('admin-modal'), container = document.getElementById('admin-modal-container');
+            modal.classList.add('opacity-0'); container.classList.remove('scale-100'); container.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+        function submitAdminLogin() {
+            if (document.getElementById('admin-password-input').value === appData.adminPassword) { closeAdminLogin(); enableAdminMode(); } 
+            else { document.getElementById('admin-error').classList.remove('hidden'); }
+        }
+        function enableAdminMode() {
+            document.getElementById('public-view').classList.add('hidden');
+            document.getElementById('admin-view').classList.remove('hidden');
+            document.getElementById('admin-header-url').value = appData.headerUrl;
+            document.getElementById('admin-profile-url').value = appData.profileUrl;
+            document.getElementById('admin-whatsapp').value = appData.whatsappNumber;
+            
+            for(let i=0; i<9; i++) {
+                document.getElementById(`admin-poster-${i}`).value = appData.posters[i];
+                document.getElementById(`admin-poster-title-${i}`).value = appData.posterTitles[i];
+                document.getElementById(`admin-poster-desc-${i}`).value = appData.posterDescs[i];
+                document.getElementById(`admin-logo-${i}`).value = appData.logos[i];
+                document.getElementById(`admin-logo-title-${i}`).value = appData.logoTitles[i];
+                document.getElementById(`admin-logo-desc-${i}`).value = appData.logoDescs[i];
+            }
+            switchAdminTab('global'); // Default tab
+            window.scrollTo(0,0); alert("Welcome Admin!");
+        }
+        function logoutAdmin() {
+            document.getElementById('admin-view').classList.add('hidden');
+            document.getElementById('public-view').classList.remove('hidden');
+            fetchFromCloud(); 
+            window.scrollTo(0,0);
+        }
+        function saveAdminSettings() {
+            appData.headerUrl = convertGoogleDriveLink(document.getElementById('admin-header-url').value);
+            appData.profileUrl = convertGoogleDriveLink(document.getElementById('admin-profile-url').value);
+            appData.whatsappNumber = document.getElementById('admin-whatsapp').value;
+            
+            for(let i=0; i<9; i++) {
+                appData.posters[i] = convertGoogleDriveLink(document.getElementById(`admin-poster-${i}`).value);
+                appData.posterTitles[i] = document.getElementById(`admin-poster-title-${i}`).value;
+                appData.posterDescs[i] = document.getElementById(`admin-poster-desc-${i}`).value;
+                appData.logos[i] = convertGoogleDriveLink(document.getElementById(`admin-logo-${i}`).value);
+                appData.logoTitles[i] = document.getElementById(`admin-logo-title-${i}`).value;
+                appData.logoDescs[i] = document.getElementById(`admin-logo-desc-${i}`).value;
+            }
+            enableAdminMode(); // Refresh inputs ui
+            saveToCloud();
+        }
+
+        // --- PUBLIC HELPERS ---
+        function switchTab(t) {
+            ['about', 'portfolio', 'logo'].forEach(tab => {
+                document.getElementById(`tab-${tab}`).className = (t === tab) ? "py-4 text-sm font-bold text-white border-b-2 border-primary relative whitespace-nowrap" : "py-4 text-sm font-medium text-zinc-500 hover:text-white transition whitespace-nowrap border-b-2 border-transparent relative";
+                document.getElementById(`content-${tab}`).classList.toggle('hidden', t !== tab);
+            });
+        }
+        function openModal(type, i) {
+            const modal = document.getElementById('image-modal'), container = document.getElementById('modal-container');
+            const url = (type === 'poster') ? appData.posters[i] : appData.logos[i];
+            const title = (type === 'poster') ? (appData.posterTitles[i] || "Project Details") : (appData.logoTitles[i] || "Project Details");
+            const desc = (type === 'poster') ? (appData.posterDescs[i] || "No description available.") : (appData.logoDescs[i] || "No description available.");
+            const realImg = document.getElementById('modal-img-real'), icon = document.getElementById('modal-icon'), badge = document.getElementById('modal-badge');
+            
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+
+            if(url) { realImg.src = url; realImg.classList.remove('hidden'); icon.classList.add('hidden'); } 
+            else { realImg.classList.add('hidden'); icon.classList.remove('hidden'); }
+            
+            if (i === 0) { badge.innerHTML = "1st Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-black bg-gradient-to-r from-yellow-400 to-yellow-600 shadow block"; }
+            else if (i === 1) { badge.innerHTML = "2nd Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-black bg-gradient-to-r from-gray-300 to-gray-500 shadow block"; }
+            else if (i === 2) { badge.innerHTML = "3rd Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-white bg-gradient-to-r from-orange-500 to-orange-700 shadow block"; }
+            else { badge.className = "hidden"; }
+
+            modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); container.classList.remove('scale-95'); container.classList.add('scale-100'); }, 10);
+        }
+        function closeModal() {
+            const modal = document.getElementById('image-modal'), container = document.getElementById('modal-container');
+            modal.classList.add('opacity-0'); container.classList.remove('scale-100'); container.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+        function openWhatsAppModal() { document.getElementById('whatsapp-modal').classList.remove('hidden'); setTimeout(() => { document.getElementById('whatsapp-modal').classList.remove('opacity-0'); document.getElementById('whatsapp-modal-container').classList.add('scale-100'); }, 10); }
+        function closeWhatsAppModal() { document.getElementById('whatsapp-modal').classList.add('opacity-0'); document.getElementById('whatsapp-modal-container').classList.remove('scale-100'); setTimeout(() => { document.getElementById('whatsapp-modal').classList.add('hidden'); }, 300); }
+        function proceedWhatsApp() { 
+            let num = appData.whatsappNumber || "60123456789"; 
+            num = num.replace(/[^0-9]/g, '');
+            window.open("https://wa.me/" + num, '_blank');
+            closeWhatsAppModal(); 
+        }
+    </script>
+</body>
+</html>
