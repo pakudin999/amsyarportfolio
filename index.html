@@ -161,7 +161,7 @@
         </div>
     </div>
 
-    <!-- ADMIN VIEW (NEW UI) -->
+    <!-- ADMIN VIEW (TABBED UI) -->
     <div id="admin-view" class="hidden min-h-screen bg-zinc-950 text-white pb-20">
         <nav class="fixed top-0 w-full z-50 bg-zinc-950/95 backdrop-blur-md border-b border-primary/50 shadow-lg shadow-primary/10">
             <div class="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
@@ -212,6 +212,11 @@
                 <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
                     <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">folder</span> Poster Collection</h3>
                     <div id="admin-poster-container" class="grid gap-4"></div>
+                    
+                    <!-- ADD BUTTON -->
+                    <button onclick="addSlot('poster')" class="w-full mt-4 border-2 border-dashed border-zinc-700 hover:border-primary text-zinc-500 hover:text-primary py-3 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2">
+                        <span class="material-icons-outlined">add_circle_outline</span> Add Slot
+                    </button>
                 </div>
                 
                 <!-- SAVE BUTTON (Poster) -->
@@ -227,6 +232,11 @@
                 <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
                     <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">verified</span> Logo Collection</h3>
                     <div id="admin-logo-container" class="grid gap-4"></div>
+                    
+                    <!-- ADD BUTTON -->
+                    <button onclick="addSlot('logo')" class="w-full mt-4 border-2 border-dashed border-zinc-700 hover:border-primary text-zinc-500 hover:text-primary py-3 rounded-xl text-sm font-bold transition-colors flex items-center justify-center gap-2">
+                        <span class="material-icons-outlined">add_circle_outline</span> Add Slot
+                    </button>
                 </div>
 
                 <!-- SAVE BUTTON (Logo) -->
@@ -292,7 +302,7 @@
         // CONFIGURATION (PENTING!)
         // ============================================
         // Masukkan Web App URL dari Google Apps Script anda di sini:
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7yVMv7UI57JtshnPJf9j2HTSpBWFaL_Ga2kLLuuH8-sMtmzuBc0yNg9qJrATQmEkN/exec"; 
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxftdZDyRJvt63hPNaoPdMJ2OEn1FupMUHrpXJMHiMF1pp50uGiFp0FcHVHx3BdUiKS/exec"; 
         
         let appData = {
             adminPassword: "amsyar'z", 
@@ -329,16 +339,51 @@
                     appData.profileUrl = data.profileUrl || "";
                     appData.whatsappNumber = data.whatsappNumber || ""; 
                     
-                    for(let i=0; i<9; i++) {
+                    // Dynamic Loading: Check highest index in data
+                    let maxPoster = 8;
+                    let maxLogo = 8;
+                    
+                    // Check keys to find max index
+                    Object.keys(data).forEach(key => {
+                        if(key.startsWith('poster_')) {
+                            const idx = parseInt(key.split('_')[1]);
+                            if(idx > maxPoster) maxPoster = idx;
+                        }
+                        if(key.startsWith('logo_')) {
+                            const idx = parseInt(key.split('_')[1]);
+                            if(idx > maxLogo) maxLogo = idx;
+                        }
+                    });
+
+                    // Resize arrays if cloud has more data
+                    if(maxPoster + 1 > appData.posters.length) {
+                        const diff = (maxPoster + 1) - appData.posters.length;
+                        for(let k=0; k<diff; k++) {
+                            appData.posters.push(""); appData.posterTitles.push(""); appData.posterDescs.push("");
+                        }
+                    }
+                    if(maxLogo + 1 > appData.logos.length) {
+                        const diff = (maxLogo + 1) - appData.logos.length;
+                        for(let k=0; k<diff; k++) {
+                            appData.logos.push(""); appData.logoTitles.push(""); appData.logoDescs.push("");
+                        }
+                    }
+                    
+                    // Fill Data
+                    for(let i=0; i<appData.posters.length; i++) {
                         appData.posters[i] = data['poster_' + i] || "";
                         appData.posterTitles[i] = data['poster_title_' + i] || "";
                         appData.posterDescs[i] = data['poster_desc_' + i] || "";
-                        
+                    }
+                    for(let i=0; i<appData.logos.length; i++) {
                         appData.logos[i] = data['logo_' + i] || "";
                         appData.logoTitles[i] = data['logo_title_' + i] || "";
                         appData.logoDescs[i] = data['logo_desc_' + i] || "";
                     }
+                    
                     loadImagesFromData();
+                    renderGrids(); // Re-render grid with new count
+                    renderAdminInputs(); // Re-render admin with new count
                 }
             } catch (error) { console.error("Failed to fetch from cloud:", error); } 
             finally { document.getElementById('initial-loader').classList.add('hidden'); }
@@ -380,6 +425,29 @@
             }
         }
 
+        // --- DYNAMIC SLOTS ---
+        function addSlot(type) {
+            // Push empty data
+            if(type === 'poster') {
+                appData.posters.push("");
+                appData.posterTitles.push("");
+                appData.posterDescs.push("");
+            } else if (type === 'logo') {
+                appData.logos.push("");
+                appData.logoTitles.push("");
+                appData.logoDescs.push("");
+            }
+            
+            // Refresh UI
+            renderAdminInputs();
+            renderGrids();
+            
+            // Auto scroll to bottom
+            setTimeout(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 100);
+        }
+
         // --- GOOGLE DRIVE CONVERTER ---
         function convertGoogleDriveLink(url) {
             if (!url) return "";
@@ -401,7 +469,10 @@
 
         function generateGridHTML(type) {
             let html = '';
-            for(let i = 0; i < 9; i++) {
+            // Use actual data length, not fixed 9
+            const count = (type === 'poster') ? appData.posters.length : appData.logos.length;
+            
+            for(let i = 0; i < count; i++) {
                 let badgeHTML = '', borderClass = 'border border-zinc-800', iconColor = 'text-zinc-800', iconType = 'image';
                 if (i === 0) { 
                     badgeHTML = `<div class="absolute top-0 left-0 bg-gradient-to-br from-yellow-400 to-yellow-600 text-black text-[10px] font-black px-2 py-1 rounded-br-lg shadow-lg z-10 flex items-center gap-1"><span class="material-icons-outlined text-[14px]">emoji_events</span> 1st</div>`;
@@ -424,14 +495,28 @@
             if (appData.profileUrl) { profileImg.src = appData.profileUrl; profileImg.classList.remove('hidden'); profileImg.nextElementSibling.style.display = 'none'; } 
             else { profileImg.classList.add('hidden'); profileImg.nextElementSibling.style.display = 'flex'; }
             
-            appData.posters.forEach((url, i) => { const img = document.getElementById(`img-poster-${i}`); if(url) { img.src = url; img.classList.remove('hidden'); } else { img.classList.add('hidden'); } });
-            appData.logos.forEach((url, i) => { const img = document.getElementById(`img-logo-${i}`); if(url) { img.src = url; img.classList.remove('hidden'); } else { img.classList.add('hidden'); } });
+            // Loop dynamic length
+            appData.posters.forEach((url, i) => { 
+                const img = document.getElementById(`img-poster-${i}`); 
+                if(img) { // Check if element exists
+                    if(url) { img.src = url; img.classList.remove('hidden'); } else { img.classList.add('hidden'); } 
+                }
+            });
+            appData.logos.forEach((url, i) => { 
+                const img = document.getElementById(`img-logo-${i}`); 
+                if(img) {
+                    if(url) { img.src = url; img.classList.remove('hidden'); } else { img.classList.add('hidden'); } 
+                }
+            });
         }
 
         function renderAdminInputs() {
             const generateInputs = (type) => {
                 let html = '';
-                for(let i=0; i<9; i++) {
+                // Dynamic length
+                const count = (type === 'poster') ? appData.posters.length : appData.logos.length;
+                
+                for(let i=0; i<count; i++) {
                     let label = `Slot ${i+1}`;
                     let bgClass = "bg-zinc-800/50 border-zinc-700/50";
                     if(i===0) { label = `🏆 Slot 1 (Champion)`; bgClass = "bg-yellow-900/10 border-yellow-500/30"; }
@@ -492,13 +577,25 @@
             document.getElementById('admin-profile-url').value = appData.profileUrl;
             document.getElementById('admin-whatsapp').value = appData.whatsappNumber;
             
-            for(let i=0; i<9; i++) {
-                document.getElementById(`admin-poster-${i}`).value = appData.posters[i];
-                document.getElementById(`admin-poster-title-${i}`).value = appData.posterTitles[i];
-                document.getElementById(`admin-poster-desc-${i}`).value = appData.posterDescs[i];
-                document.getElementById(`admin-logo-${i}`).value = appData.logos[i];
-                document.getElementById(`admin-logo-title-${i}`).value = appData.logoTitles[i];
-                document.getElementById(`admin-logo-desc-${i}`).value = appData.logoDescs[i];
+            // Re-render inputs to ensure latest count
+            renderAdminInputs();
+            
+            // Populate Dynamic Inputs with Dynamic Loop
+            for(let i=0; i<appData.posters.length; i++) {
+                const imgIn = document.getElementById(`admin-poster-${i}`);
+                if(imgIn) imgIn.value = appData.posters[i];
+                const titIn = document.getElementById(`admin-poster-title-${i}`);
+                if(titIn) titIn.value = appData.posterTitles[i];
+                const desIn = document.getElementById(`admin-poster-desc-${i}`);
+                if(desIn) desIn.value = appData.posterDescs[i];
+            }
+            for(let i=0; i<appData.logos.length; i++) {
+                const imgIn = document.getElementById(`admin-logo-${i}`);
+                if(imgIn) imgIn.value = appData.logos[i];
+                const titIn = document.getElementById(`admin-logo-title-${i}`);
+                if(titIn) titIn.value = appData.logoTitles[i];
+                const desIn = document.getElementById(`admin-logo-desc-${i}`);
+                if(desIn) desIn.value = appData.logoDescs[i];
             }
             switchAdminTab('global'); // Default tab
             window.scrollTo(0,0); alert("Welcome Admin!");
@@ -514,15 +611,31 @@
             appData.profileUrl = convertGoogleDriveLink(document.getElementById('admin-profile-url').value);
             appData.whatsappNumber = document.getElementById('admin-whatsapp').value;
             
-            for(let i=0; i<9; i++) {
+            // Dynamic Save Loop
+            for(let i=0; i<appData.posters.length; i++) {
                 appData.posters[i] = convertGoogleDriveLink(document.getElementById(`admin-poster-${i}`).value);
                 appData.posterTitles[i] = document.getElementById(`admin-poster-title-${i}`).value;
                 appData.posterDescs[i] = document.getElementById(`admin-poster-desc-${i}`).value;
+            }
+            for(let i=0; i<appData.logos.length; i++) {
                 appData.logos[i] = convertGoogleDriveLink(document.getElementById(`admin-logo-${i}`).value);
                 appData.logoTitles[i] = document.getElementById(`admin-logo-title-${i}`).value;
                 appData.logoDescs[i] = document.getElementById(`admin-logo-desc-${i}`).value;
             }
-            enableAdminMode(); // Refresh inputs ui
+            
+            // Re-render to show updated values/converted links
+            renderAdminInputs();
+            for(let i=0; i<appData.posters.length; i++) {
+                document.getElementById(`admin-poster-${i}`).value = appData.posters[i];
+                document.getElementById(`admin-poster-title-${i}`).value = appData.posterTitles[i];
+                document.getElementById(`admin-poster-desc-${i}`).value = appData.posterDescs[i];
+            }
+            for(let i=0; i<appData.logos.length; i++) {
+                document.getElementById(`admin-logo-${i}`).value = appData.logos[i];
+                document.getElementById(`admin-logo-title-${i}`).value = appData.logoTitles[i];
+                document.getElementById(`admin-logo-desc-${i}`).value = appData.logoDescs[i];
+            }
+
             saveToCloud();
         }
 
@@ -536,8 +649,10 @@
         function openModal(type, i) {
             const modal = document.getElementById('image-modal'), container = document.getElementById('modal-container');
             const url = (type === 'poster') ? appData.posters[i] : appData.logos[i];
+            
             const title = (type === 'poster') ? (appData.posterTitles[i] || "Project Details") : (appData.logoTitles[i] || "Project Details");
             const desc = (type === 'poster') ? (appData.posterDescs[i] || "No description available.") : (appData.logoDescs[i] || "No description available.");
+
             const realImg = document.getElementById('modal-img-real'), icon = document.getElementById('modal-icon'), badge = document.getElementById('modal-badge');
             
             document.getElementById('modal-title').innerText = title;
