@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <title>Professional Creative Portfolio</title>
-    
+
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
-    
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <script>
@@ -34,31 +36,96 @@
             }
         };
     </script>
-    
+
     <style>
-        ::-webkit-scrollbar { display: none; width: 0px; background: transparent; }
-        * { -ms-overflow-style: none; scrollbar-width: none; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        body { min-height: 100vh; background-color: #000; touch-action: pan-x pan-y; }
-        html { scroll-behavior: smooth; touch-action: pan-x pan-y; }
-        
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .admin-input {
-            background-color: #ffffff; border: 1px solid #d4d4d8; color: #000000;
-            padding: 0.75rem; border-radius: 0.75rem; width: 100%; font-size: 0.875rem; transition: all 0.2s;
+        ::-webkit-scrollbar {
+            display: none;
+            width: 0px;
+            background: transparent;
         }
-        .admin-input:focus { outline: none; border-color: #FFD000; box-shadow: 0 0 0 2px rgba(255, 208, 0, 0.2); }
+
+        * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #000;
+            touch-action: pan-x pan-y;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            touch-action: pan-x pan-y;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .admin-input {
+            background-color: #ffffff;
+            border: 1px solid #d4d4d8;
+            color: #000000;
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            width: 100%;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .admin-input:focus {
+            outline: none;
+            border-color: #FFD000;
+            box-shadow: 0 0 0 2px rgba(255, 208, 0, 0.2);
+        }
 
         /* Loading Spinner */
-        .loader { border: 4px solid #333; border-radius: 50%; border-top: 4px solid #FFD000; width: 40px; height: 40px; animation: spin 1s linear infinite; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader {
+            border: 4px solid #333;
+            border-radius: 50%;
+            border-top: 4px solid #FFD000;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
-<body class="bg-black text-white font-sans antialiased transition-colors duration-200 selection:bg-primary selection:text-black">
+
+<body
+    class="bg-black text-white font-sans antialiased transition-colors duration-200 selection:bg-primary selection:text-black">
 
     <!-- Loading Overlay -->
     <div id="initial-loader" class="fixed inset-0 z-[200] bg-black flex flex-col items-center justify-center">
@@ -67,13 +134,16 @@
     </div>
 
     <!-- TOAST NOTIFICATION -->
-    <div id="toast-notification" class="fixed top-6 right-6 z-[300] transform transition-all duration-500 translate-x-[150%] opacity-0 pointer-events-none">
-        <div class="bg-zinc-900/95 backdrop-blur-md border border-green-500/20 shadow-2xl rounded-xl p-4 flex items-center gap-3 min-w-[280px] shadow-green-900/10">
-            <div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 shrink-0">
-                <span class="material-icons-outlined text-xl">check_circle</span>
+    <div id="toast-notification"
+        class="fixed top-6 right-6 z-[300] transform transition-all duration-500 translate-x-[150%] opacity-0 pointer-events-none">
+        <div
+            class="bg-zinc-900/95 backdrop-blur-md border border-green-500/20 shadow-2xl rounded-xl p-4 flex items-center gap-3 min-w-[280px] shadow-green-900/10">
+            <div
+                class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 shrink-0">
+                <span id="toast-icon" class="material-icons-outlined text-xl">check_circle</span>
             </div>
             <div>
-                <h4 class="text-sm font-bold text-white">Success</h4>
+                <h4 id="toast-title" class="text-sm font-bold text-white">Success</h4>
                 <p id="toast-message" class="text-xs text-zinc-400">Settings saved successfully.</p>
             </div>
         </div>
@@ -83,12 +153,16 @@
     <div id="public-view" class="min-h-screen bg-black transition-opacity duration-300">
         <nav class="fixed top-0 w-full z-50 bg-black/95 backdrop-blur-md border-b border-zinc-900">
             <div class="max-w-md mx-auto px-4 h-14 flex items-center justify-between relative">
-                <button onclick="openAdminLogin()" class="w-9 h-9 flex items-center justify-center rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-primary hover:border-primary/50 transition active:scale-95">
+                <button onclick="openAdminLogin()"
+                    class="w-9 h-9 flex items-center justify-center rounded-lg bg-zinc-900 border border-zinc-800 text-zinc-500 hover:text-primary hover:border-primary/50 transition active:scale-95">
                     <span class="material-icons-outlined text-lg">admin_panel_settings</span>
                 </button>
-                <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-extrabold text-lg tracking-tight text-white cursor-pointer" onclick="window.scrollTo(0,0)">Amsyar'z<span class="text-primary">.</span></span>
+                <span
+                    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-extrabold text-lg tracking-tight text-white cursor-pointer"
+                    onclick="window.scrollTo(0,0)">Amsyar'z<span class="text-primary">.</span></span>
                 <div class="flex gap-2">
-                    <button class="p-2 -mr-2 rounded-full hover:bg-zinc-900 transition text-white"><span class="material-icons-outlined text-2xl">more_vert</span></button>
+                    <button class="p-2 -mr-2 rounded-full hover:bg-zinc-900 transition text-white"><span
+                            class="material-icons-outlined text-2xl">more_vert</span></button>
                 </div>
             </div>
         </nav>
@@ -96,68 +170,96 @@
         <div class="max-w-md mx-auto pt-14 pb-20 bg-black min-h-screen relative shadow-2xl shadow-zinc-900/20">
             <header class="relative mb-8 bg-black">
                 <div class="h-36 w-full overflow-hidden relative bg-zinc-900 border-b border-zinc-800">
-                    <img id="header-img-display" alt="Header Background" class="w-full h-full object-cover transition-all duration-500" src="" onerror="this.src='https://placehold.co/600x200/1a1a1a/FFF?text=...';">
+                    <img id="header-img-display" alt="Header Background"
+                        class="w-full h-full object-cover transition-all duration-500" src=""
+                        onerror="this.src='https://placehold.co/600x200/1a1a1a/FFF?text=...';">
                 </div>
                 <div class="px-5">
                     <div class="relative -mt-16 mb-4 flex justify-start z-20">
                         <div class="relative group">
-                            <div class="w-28 h-28 rounded-full border-[6px] border-black shadow-2xl bg-zinc-800 flex items-center justify-center overflow-hidden">
-                                 <img id="profile-img-display" class="w-full h-full object-cover hidden" src="" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                                 <div class="w-full h-full flex items-center justify-center bg-zinc-800"><span class="material-icons-outlined text-5xl text-zinc-500">person</span></div>
+                            <div
+                                class="w-28 h-28 rounded-full border-[6px] border-black shadow-2xl bg-zinc-800 flex items-center justify-center overflow-hidden">
+                                <img id="profile-img-display" class="w-full h-full object-cover hidden" src=""
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                <div class="w-full h-full flex items-center justify-center bg-zinc-800"><span
+                                        class="material-icons-outlined text-5xl text-zinc-500">person</span></div>
                             </div>
-                            <div class="absolute bottom-2 right-2 w-5 h-5 bg-primary border-4 border-black rounded-full" title="Online"></div>
+                            <div class="absolute bottom-2 right-2 w-5 h-5 bg-primary border-4 border-black rounded-full"
+                                title="Online"></div>
                         </div>
                     </div>
                     <div class="text-left space-y-2">
-                        <h1 class="text-3xl font-black tracking-tight text-white">Amsyar'z<span class="text-primary">.</span></h1>
+                        <h1 class="text-3xl font-black tracking-tight text-white">Amsyar'z<span
+                                class="text-primary">.</span></h1>
                         <div class="flex flex-col gap-1 items-start">
-                            <p class="text-sm font-semibold text-zinc-400 flex items-center justify-start gap-1.5"><span class="material-icons-outlined text-primary text-lg">palette</span> Senior Graphic Designer</p>
-                            <p class="text-xs text-zinc-500 flex items-center justify-start gap-1.5"><span class="material-icons-outlined text-primary text-base">location_on</span> Johor Bahru, Malaysia</p>
+                            <p class="text-sm font-semibold text-zinc-400 flex items-center justify-start gap-1.5"><span
+                                    class="material-icons-outlined text-primary text-lg">palette</span> Senior Graphic
+                                Designer</p>
+                            <p class="text-xs text-zinc-500 flex items-center justify-start gap-1.5"><span
+                                    class="material-icons-outlined text-primary text-base">location_on</span> Johor
+                                Bahru, Malaysia</p>
                         </div>
                         <div class="pt-3">
-                            <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">
-                                <span class="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></span> Available for Freelance
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-primary/10 text-primary border border-primary/20">
+                                <span class="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse"></span> Available for
+                                Freelance
                             </span>
                         </div>
                     </div>
                     <div class="flex gap-4 mt-8">
-                        <button onclick="openSocialModal()" class="flex-1 bg-primary hover:bg-yellow-400 text-black font-black py-3.5 px-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.15)] active:scale-95 transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide"><span class="material-icons-outlined text-xl">public</span> MEDIA SOCIAL</button>
-                        <button onclick="openWhatsAppModal()" class="flex-1 bg-transparent border-2 border-primary hover:bg-primary/10 text-white font-bold py-3.5 px-4 rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide"><span class="material-icons-outlined text-xl text-primary">chat</span> WHATSAPP</button>
+                        <button onclick="openSocialModal()"
+                            class="flex-1 bg-primary hover:bg-yellow-400 text-black font-black py-3.5 px-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.15)] active:scale-95 transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide"><span
+                                class="material-icons-outlined text-xl">public</span> MEDIA SOCIAL</button>
+                        <button onclick="openWhatsAppModal()"
+                            class="flex-1 bg-transparent border-2 border-primary hover:bg-primary/10 text-white font-bold py-3.5 px-4 rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2 text-sm uppercase tracking-wide"><span
+                                class="material-icons-outlined text-xl text-primary">chat</span> WHATSAPP</button>
                     </div>
                 </div>
             </header>
 
             <section class="px-5 mb-8">
                 <div class="bg-zinc-900/50 rounded-2xl p-5 border border-zinc-800/80 backdrop-blur-sm">
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4 ml-1">Engagement Types</h3>
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-500 mb-4 ml-1">Engagement Types
+                    </h3>
                     <div class="space-y-4">
-                        <div class="flex items-center justify-between group cursor-pointer hover:bg-zinc-800/50 p-2 -mx-2 rounded-lg transition-colors">
+                        <div
+                            class="flex items-center justify-between group cursor-pointer hover:bg-zinc-800/50 p-2 -mx-2 rounded-lg transition-colors">
                             <div class="flex items-center gap-4">
-                                <div class="p-3 bg-primary/10 text-primary rounded-xl border border-primary/10"><span class="material-icons-outlined text-2xl">edit_note</span></div>
-                                <div><p class="font-bold text-white text-sm">Freelance Project</p><p class="text-xs text-zinc-500 mt-0.5">Short-term contracts &amp; gigs</p></div>
+                                <div class="p-3 bg-primary/10 text-primary rounded-xl border border-primary/10"><span
+                                        class="material-icons-outlined text-2xl">edit_note</span></div>
+                                <div>
+                                    <p class="font-bold text-white text-sm">Freelance Project</p>
+                                    <p class="text-xs text-zinc-500 mt-0.5">Short-term contracts &amp; gigs</p>
+                                </div>
                             </div>
-                            <span class="material-icons-outlined text-zinc-600 group-hover:text-primary transition-colors">arrow_forward</span>
+                            <span
+                                class="material-icons-outlined text-zinc-600 group-hover:text-primary transition-colors">arrow_forward</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <div id="public-tabs" class="sticky top-14 bg-black/95 backdrop-blur z-40 border-b border-zinc-900 mb-6 transition-all duration-300">
+            <div id="public-tabs"
+                class="sticky top-14 bg-black/95 backdrop-blur z-40 border-b border-zinc-900 mb-6 transition-all duration-300">
                 <div id="public-tabs-container" class="flex items-center px-6 gap-8 overflow-x-auto no-scrollbar">
                     <!-- About Tab is Fixed -->
-                    <button id="tab-about" onclick="switchTab('about')" class="py-4 text-sm font-medium text-zinc-500 hover:text-white transition whitespace-nowrap border-b-2 border-transparent">About</button>
+                    <button id="tab-about" onclick="switchTab('about')"
+                        class="py-4 text-sm font-medium text-zinc-500 hover:text-white transition whitespace-nowrap border-b-2 border-transparent">About</button>
                     <!-- Other tabs will be injected here by JS -->
                 </div>
             </div>
 
             <main class="min-h-[300px]">
-                
+
                 <!-- About Content (Fixed) -->
                 <div id="content-about" class="hidden px-6 pb-10 fade-in">
                     <div class="space-y-8">
                         <div class="flex justify-start">
-                            <div class="w-32 h-40 rounded-xl bg-zinc-900 border border-zinc-800 overflow-hidden shadow-lg relative">
-                                <img id="about-img-display" src="" class="w-full h-full object-cover hidden" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                            <div
+                                class="w-32 h-40 rounded-xl bg-zinc-900 border border-zinc-800 overflow-hidden shadow-lg relative">
+                                <img id="about-img-display" src="" class="w-full h-full object-cover hidden"
+                                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
                                 <div class="w-full h-full flex items-center justify-center bg-zinc-800 text-zinc-600">
                                     <span class="material-icons-outlined text-4xl">person_outline</span>
                                 </div>
@@ -168,9 +270,18 @@
                             <p id="about-bio-display" class="text-zinc-400 leading-relaxed text-sm">Loading bio...</p>
                         </div>
                         <div class="grid grid-cols-3 gap-4 border-t border-zinc-800 pt-6">
-                            <div class="text-center"><h4 id="about-years-display" class="text-2xl font-black text-white">6+</h4><p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Years Exp.</p></div>
-                            <div class="text-center border-l border-zinc-800"><h4 id="about-projects-display" class="text-2xl font-black text-white">120+</h4><p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Projects</p></div>
-                            <div class="text-center border-l border-zinc-800"><h4 id="about-clients-display" class="text-2xl font-black text-white">50+</h4><p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Clients</p></div>
+                            <div class="text-center">
+                                <h4 id="about-years-display" class="text-2xl font-black text-white">6+</h4>
+                                <p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Years Exp.</p>
+                            </div>
+                            <div class="text-center border-l border-zinc-800">
+                                <h4 id="about-projects-display" class="text-2xl font-black text-white">120+</h4>
+                                <p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Projects</p>
+                            </div>
+                            <div class="text-center border-l border-zinc-800">
+                                <h4 id="about-clients-display" class="text-2xl font-black text-white">50+</h4>
+                                <p class="text-[10px] text-zinc-500 uppercase font-bold mt-1">Clients</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,14 +294,17 @@
             </main>
 
             <footer class="mt-12 border-t border-zinc-900 py-10 px-6 mx-auto max-w-md">
-                <div class="text-center space-y-6"><p class="text-xs text-zinc-600 font-medium tracking-wide">© 2024 Amsyar'z. All rights reserved.</p></div>
+                <div class="text-center space-y-6">
+                    <p class="text-xs text-zinc-600 font-medium tracking-wide">© 2024 Amsyar'z. All rights reserved.</p>
+                </div>
             </footer>
         </div>
     </div>
 
     <!-- ADMIN VIEW -->
     <div id="admin-view" class="hidden min-h-screen bg-zinc-950 text-white pb-20">
-        <nav class="fixed top-0 w-full z-50 bg-zinc-950/95 backdrop-blur-md border-b border-primary/50 shadow-lg shadow-primary/10">
+        <nav
+            class="fixed top-0 w-full z-50 bg-zinc-950/95 backdrop-blur-md border-b border-primary/50 shadow-lg shadow-primary/10">
             <div class="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <span class="material-icons-outlined text-primary text-2xl">cloud_sync</span>
@@ -199,75 +313,117 @@
                         <p class="text-[10px] text-zinc-400 font-mono mt-0.5">Synced with System</p>
                     </div>
                 </div>
-                <button onclick="logoutAdmin()" class="flex items-center gap-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 px-3 py-1.5 rounded-lg border border-red-500/20 transition text-xs font-bold"><span class="material-icons-outlined text-sm">logout</span> EXIT</button>
+                <button onclick="logoutAdmin()"
+                    class="flex items-center gap-1 bg-red-500/10 hover:bg-red-500/20 text-red-500 px-3 py-1.5 rounded-lg border border-red-500/20 transition text-xs font-bold"><span
+                        class="material-icons-outlined text-sm">logout</span> EXIT</button>
             </div>
         </nav>
 
         <div class="max-w-md mx-auto pt-24 px-5 space-y-6">
-            
+
             <!-- ADMIN TABS SCROLLABLE -->
-            <div id="admin-tabs-container" class="flex bg-zinc-900 p-1 rounded-xl border border-zinc-800 mb-6 overflow-x-auto no-scrollbar gap-1">
-                <!-- Static Tabs -->
-                <button id="btn-admin-global" onclick="switchAdminTab('global')" class="flex-1 min-w-[80px] py-2 px-3 text-xs font-bold rounded-lg bg-primary text-black transition-all whitespace-nowrap">Global</button>
-                <button id="btn-admin-about" onclick="switchAdminTab('about')" class="flex-1 min-w-[80px] py-2 px-3 text-xs font-bold rounded-lg text-zinc-500 hover:text-white transition-all whitespace-nowrap">About</button>
-                <!-- Dynamic Tabs injected here -->
-                <button onclick="addNewCollection()" class="min-w-[40px] py-2 px-3 text-xs font-bold rounded-lg bg-zinc-800 text-green-500 hover:bg-zinc-700 transition-all border border-zinc-700"><span class="material-icons-outlined text-sm">add</span></button>
+            <div id="admin-tabs-container"
+                class="flex bg-zinc-900 p-1 rounded-xl border border-zinc-800 mb-6 overflow-x-auto no-scrollbar gap-1">
+                <!-- Dynamic Buttons will be injected here -->
             </div>
 
             <!-- TAB 1: GLOBAL -->
             <div id="admin-panel-global" class="fade-in space-y-6">
                 <!-- Tab Management Section -->
                 <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
-                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">tab</span> Manage Tabs</h3>
-                    <div id="admin-tab-manager" class="space-y-3">
-                        <!-- List of tabs to rename/delete -->
-                    </div>
-                    <button onclick="addNewCollection()" class="mt-4 w-full py-3 rounded-xl border border-dashed border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800/50 transition flex items-center justify-center gap-2 text-xs font-bold">
+                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4">
+                        <span class="material-icons-outlined text-lg">tab</span> Manage Tabs
+                    </h3>
+                    <button onclick="addNewCollection()"
+                        class="w-full py-3 rounded-xl border border-dashed border-zinc-700 text-zinc-400 hover:text-white hover:border-zinc-500 hover:bg-zinc-800/50 transition flex items-center justify-center gap-2 text-xs font-bold">
                         <span class="material-icons-outlined">add_circle</span> Add New Portfolio Tab
                     </button>
                 </div>
 
                 <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
-                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">image</span> Main Assets</h3>
+                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4">
+                        <span class="material-icons-outlined text-lg">image</span> Main Assets
+                    </h3>
                     <div class="space-y-4">
-                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Header Image URL</label><input type="text" id="admin-header-url" class="admin-input" placeholder="Paste Google Drive link here..."><p class="text-[10px] text-zinc-600 mt-1 italic ml-1">Recommended: 1200x400px</p></div>
-                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Profile Picture URL</label><input type="text" id="admin-profile-url" class="admin-input" placeholder="Paste Google Drive link here..."><p class="text-[10px] text-zinc-600 mt-1 italic ml-1">Recommended: 500x500px</p></div>
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Header Image
+                                URL</label><input type="text" id="admin-header-url" class="admin-input"
+                                placeholder="Paste Google Drive link here...">
+                            <p class="text-[10px] text-zinc-600 mt-1 italic ml-1">Recommended: 1200x400px</p>
+                        </div>
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Profile Picture
+                                URL</label><input type="text" id="admin-profile-url" class="admin-input"
+                                placeholder="Paste Google Drive link here...">
+                            <p class="text-[10px] text-zinc-600 mt-1 italic ml-1">Recommended: 500x500px</p>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
-                    <h3 class="text-green-500 font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">chat</span> Contact</h3>
-                    <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">WhatsApp Number</label><input type="text" id="admin-whatsapp" class="admin-input" placeholder="e.g. 60123456789"></div>
+                    <h3
+                        class="text-green-500 font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4">
+                        <span class="material-icons-outlined text-lg">chat</span> Contact
+                    </h3>
+                    <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">WhatsApp Number</label><input
+                            type="text" id="admin-whatsapp" class="admin-input" placeholder="e.g. 60123456789"></div>
                 </div>
                 <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
-                    <h3 class="text-blue-500 font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">public</span> Social Media Links</h3>
+                    <h3 class="text-blue-500 font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4">
+                        <span class="material-icons-outlined text-lg">public</span> Social Media Links
+                    </h3>
                     <div class="space-y-4">
-                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Facebook URL</label><input type="text" id="admin-facebook" class="admin-input" placeholder="https://facebook.com/..."></div>
-                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Instagram URL</label><input type="text" id="admin-instagram" class="admin-input" placeholder="https://instagram.com/..."></div>
-                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">TikTok URL</label><input type="text" id="admin-tiktok" class="admin-input" placeholder="https://tiktok.com/@..."></div>
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Facebook URL</label><input
+                                type="text" id="admin-facebook" class="admin-input"
+                                placeholder="https://facebook.com/..."></div>
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Instagram
+                                URL</label><input type="text" id="admin-instagram" class="admin-input"
+                                placeholder="https://instagram.com/..."></div>
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">TikTok URL</label><input
+                                type="text" id="admin-tiktok" class="admin-input" placeholder="https://tiktok.com/@...">
+                        </div>
                     </div>
                 </div>
-                <div class="pt-4 pb-10"><button onclick="saveAdminSettings()" class="w-full bg-primary hover:bg-yellow-400 text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide"><span class="material-icons-outlined">cloud_upload</span> Save &amp; Sync</button></div>
+                <div class="pt-4 pb-10"><button onclick="saveAdminSettings()"
+                        class="w-full bg-primary hover:bg-yellow-400 text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide"><span
+                            class="material-icons-outlined">cloud_upload</span> Save &amp; Sync</button></div>
             </div>
 
             <!-- TAB 2: ABOUT -->
             <div id="admin-panel-about" class="hidden fade-in space-y-6">
                 <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
-                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">face</span> About Photo</h3>
-                    <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Passport Photo URL</label><input type="text" id="admin-about-img" class="admin-input" placeholder="Paste Google Drive link here..."><p class="text-[10px] text-zinc-600 mt-1 italic ml-1">Recommended: 400x500px</p></div>
-                </div>
-                <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
-                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">person</span> Biography</h3>
-                    <div><textarea id="admin-about-bio" class="admin-input h-32" placeholder="Write your bio here..."></textarea></div>
-                </div>
-                <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
-                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4"><span class="material-icons-outlined text-lg">bar_chart</span> Statistics</h3>
-                    <div class="grid grid-cols-3 gap-3">
-                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block">Years Exp.</label><input type="text" id="admin-about-years" class="admin-input text-center font-bold" placeholder="6+"></div>
-                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block">Projects</label><input type="text" id="admin-about-projects" class="admin-input text-center font-bold" placeholder="120+"></div>
-                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block">Clients</label><input type="text" id="admin-about-clients" class="admin-input text-center font-bold" placeholder="50+"></div>
+                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4">
+                        <span class="material-icons-outlined text-lg">face</span> About Photo
+                    </h3>
+                    <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block ml-1">Passport Photo
+                            URL</label><input type="text" id="admin-about-img" class="admin-input"
+                            placeholder="Paste Google Drive link here...">
+                        <p class="text-[10px] text-zinc-600 mt-1 italic ml-1">Recommended: 400x500px</p>
                     </div>
                 </div>
-                <div class="pt-4 pb-10"><button onclick="saveAdminSettings()" class="w-full bg-primary hover:bg-yellow-400 text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide"><span class="material-icons-outlined">cloud_upload</span> Save &amp; Sync</button></div>
+                <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
+                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4">
+                        <span class="material-icons-outlined text-lg">person</span> Biography
+                    </h3>
+                    <div><textarea id="admin-about-bio" class="admin-input h-32"
+                            placeholder="Write your bio here..."></textarea></div>
+                </div>
+                <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
+                    <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center gap-2 mb-4">
+                        <span class="material-icons-outlined text-lg">bar_chart</span> Statistics
+                    </h3>
+                    <div class="grid grid-cols-3 gap-3">
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block">Years Exp.</label><input
+                                type="text" id="admin-about-years" class="admin-input text-center font-bold"
+                                placeholder="6+"></div>
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block">Projects</label><input
+                                type="text" id="admin-about-projects" class="admin-input text-center font-bold"
+                                placeholder="120+"></div>
+                        <div><label class="text-xs font-bold text-zinc-400 mb-1.5 block">Clients</label><input
+                                type="text" id="admin-about-clients" class="admin-input text-center font-bold"
+                                placeholder="50+"></div>
+                    </div>
+                </div>
+                <div class="pt-4 pb-10"><button onclick="saveAdminSettings()"
+                        class="w-full bg-primary hover:bg-yellow-400 text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide"><span
+                            class="material-icons-outlined">cloud_upload</span> Save &amp; Sync</button></div>
             </div>
 
             <!-- DYNAMIC ADMIN PANELS CONTAINER -->
@@ -278,142 +434,284 @@
         </div>
     </div>
 
-    <!-- MODALS (Image, Whatsapp, Admin Login, Social) SAME AS BEFORE -->
-    <div id="image-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-[6px] hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0" onclick="closeModal()">
-        <button onclick="closeModal()" class="absolute top-6 right-6 z-[110] w-10 h-10 flex items-center justify-center bg-black/50 text-white rounded-full backdrop-blur-md hover:bg-white/20 transition active:scale-95 border border-white/10"><span class="material-icons-outlined text-xl">close</span></button>
-        <div class="relative w-full max-w-sm transform scale-95 transition-all duration-300" id="modal-container" onclick="event.stopPropagation()">
+    <!-- MODALS -->
+    <div id="image-modal"
+        class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-[6px] hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0"
+        onclick="closeModal()">
+        <button onclick="closeModal()"
+            class="absolute top-6 right-6 z-[110] w-10 h-10 flex items-center justify-center bg-black/50 text-white rounded-full backdrop-blur-md hover:bg-white/20 transition active:scale-95 border border-white/10"><span
+                class="material-icons-outlined text-xl">close</span></button>
+        <div class="relative w-full max-w-sm transform scale-95 transition-all duration-300" id="modal-container"
+            onclick="event.stopPropagation()">
             <div class="bg-zinc-900 rounded-2xl overflow-hidden shadow-2xl border border-zinc-800">
-                <div class="px-4 py-3 border-b border-zinc-800 bg-zinc-900 flex justify-between items-center"><span class="text-sm font-bold text-white">Preview</span><span id="modal-badge" class="hidden text-[10px] font-black px-2 py-0.5 rounded text-black bg-primary">BADGE</span></div>
-                <div class="aspect-[4/5] bg-black flex items-center justify-center relative overflow-hidden group"><img id="modal-img-real" class="w-full h-full object-cover hidden" src=""><span id="modal-icon" class="material-icons-outlined text-zinc-800 text-8xl group-hover:scale-110 transition-transform duration-500">image</span></div>
-                <div class="p-4 bg-zinc-900"><h3 id="modal-title" class="text-lg font-bold text-white mb-1">Project Details</h3><p id="modal-desc" class="text-xs text-zinc-400 leading-relaxed">No description available.</p></div>
-            </div>
-        </div>
-    </div>
-    
-    <div id="whatsapp-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0">
-        <div class="bg-zinc-900 rounded-2xl w-full max-w-sm border border-zinc-800 shadow-2xl transform scale-95 transition-all duration-300 relative overflow-hidden" id="whatsapp-modal-container">
-            <div class="p-6 text-center border-b border-zinc-800/50 bg-gradient-to-b from-[#25D366]/10 to-transparent relative"><h3 class="text-xl font-bold text-white mb-1">Chat on WhatsApp</h3><p class="text-zinc-400 text-xs">Direct personal communication</p><button onclick="closeWhatsAppModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition"><span class="material-icons-outlined">close</span></button></div>
-            <div class="p-6 space-y-6">
-                <div class="flex justify-center"><div class="w-20 h-20 rounded-full bg-[#25D366]/10 flex items-center justify-center border border-[#25D366]/20 shadow-[0_0_30px_rgba(37,211,102,0.15)] animate-pulse"><svg class="w-10 h-10 fill-[#25D366]" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></div></div>
-                <div class="text-center space-y-2"><p class="text-white font-medium text-sm">Start a conversation with <span class="text-[#25D366] font-bold">Amsyar'z</span></p><p class="text-zinc-500 text-[10px] px-4">Typically replies within an hour.</p></div>
-                <a id="wa-link-btn" href="#" target="_blank" class="w-full py-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-black font-black text-sm shadow-lg shadow-green-900/20 transition-all active:scale-95 flex items-center justify-center gap-2"><span class="material-icons-outlined text-lg">send</span> OPEN WHATSAPP</a>
+                <div class="px-4 py-3 border-b border-zinc-800 bg-zinc-900 flex justify-between items-center"><span
+                        class="text-sm font-bold text-white">Preview</span><span id="modal-badge"
+                        class="hidden text-[10px] font-black px-2 py-0.5 rounded text-black bg-primary">BADGE</span>
+                </div>
+                <div class="aspect-[4/5] bg-black flex items-center justify-center relative overflow-hidden group"><img
+                        id="modal-img-real" class="w-full h-full object-cover hidden" src=""><span id="modal-icon"
+                        class="material-icons-outlined text-zinc-800 text-8xl group-hover:scale-110 transition-transform duration-500">image</span>
+                </div>
+                <div class="p-4 bg-zinc-900">
+                    <h3 id="modal-title" class="text-lg font-bold text-white mb-1">Project Details</h3>
+                    <p id="modal-desc" class="text-xs text-zinc-400 leading-relaxed">No description available.</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <div id="social-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0">
-        <div class="bg-zinc-900 rounded-2xl w-full max-w-sm border border-zinc-800 shadow-2xl transform scale-95 transition-all duration-300 relative overflow-hidden" id="social-modal-container">
-            <div class="p-6 text-center border-b border-zinc-800/50 bg-gradient-to-b from-zinc-800/20 to-transparent"><h3 class="text-xl font-bold text-white mb-1">Follow Me</h3><p class="text-zinc-400 text-xs">Stay updated with my latest works</p><button onclick="closeSocialModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition"><span class="material-icons-outlined">close</span></button></div>
+    <div id="whatsapp-modal"
+        class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0">
+        <div class="bg-zinc-900 rounded-2xl w-full max-w-sm border border-zinc-800 shadow-2xl transform scale-95 transition-all duration-300 relative overflow-hidden"
+            id="whatsapp-modal-container">
+            <div
+                class="p-6 text-center border-b border-zinc-800/50 bg-gradient-to-b from-[#25D366]/10 to-transparent relative">
+                <h3 class="text-xl font-bold text-white mb-1">Chat on WhatsApp</h3>
+                <p class="text-zinc-400 text-xs">Direct personal communication</p><button onclick="closeWhatsAppModal()"
+                    class="absolute top-4 right-4 text-zinc-500 hover:text-white transition"><span
+                        class="material-icons-outlined">close</span></button>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="flex justify-center">
+                    <div
+                        class="w-20 h-20 rounded-full bg-[#25D366]/10 flex items-center justify-center border border-[#25D366]/20 shadow-[0_0_30px_rgba(37,211,102,0.15)] animate-pulse">
+                        <svg class="w-10 h-10 fill-[#25D366]" viewBox="0 0 24 24">
+                            <path
+                                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="text-center space-y-2">
+                    <p class="text-white font-medium text-sm">Start a conversation with <span
+                            class="text-[#25D366] font-bold">Amsyar'z</span></p>
+                    <p class="text-zinc-500 text-[10px] px-4">Typically replies within an hour.</p>
+                </div>
+                <a id="wa-link-btn" href="#" target="_blank"
+                    class="w-full py-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-black font-black text-sm shadow-lg shadow-green-900/20 transition-all active:scale-95 flex items-center justify-center gap-2"><span
+                        class="material-icons-outlined text-lg">send</span> OPEN WHATSAPP</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="social-modal"
+        class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0">
+        <div class="bg-zinc-900 rounded-2xl w-full max-w-sm border border-zinc-800 shadow-2xl transform scale-95 transition-all duration-300 relative overflow-hidden"
+            id="social-modal-container">
+            <div class="p-6 text-center border-b border-zinc-800/50 bg-gradient-to-b from-zinc-800/20 to-transparent">
+                <h3 class="text-xl font-bold text-white mb-1">Follow Me</h3>
+                <p class="text-zinc-400 text-xs">Stay updated with my latest works</p><button
+                    onclick="closeSocialModal()"
+                    class="absolute top-4 right-4 text-zinc-500 hover:text-white transition"><span
+                        class="material-icons-outlined">close</span></button>
+            </div>
             <div class="p-5 space-y-3">
-                <a id="social-link-fb" href="#" target="_blank" class="flex items-center gap-4 p-4 rounded-xl bg-[#1877F2]/10 border border-[#1877F2]/20 hover:bg-[#1877F2]/20 transition group"><div class="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform"><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></div><div><h4 class="font-bold text-white group-hover:text-[#1877F2] transition-colors">Facebook</h4><p class="text-[10px] text-zinc-500">Connect with me</p></div><span class="material-icons-outlined ml-auto text-zinc-600 group-hover:text-white transition-colors">arrow_forward</span></a>
-                <a id="social-link-ig" href="#" target="_blank" class="flex items-center gap-4 p-4 rounded-xl bg-[#E4405F]/10 border border-[#E4405F]/20 hover:bg-[#E4405F]/20 transition group"><div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FFDC80] via-[#E4405F] to-[#C13584] flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform"><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></div><div><h4 class="font-bold text-white group-hover:text-[#E4405F] transition-colors">Instagram</h4><p class="text-[10px] text-zinc-500">See my portfolio</p></div><span class="material-icons-outlined ml-auto text-zinc-600 group-hover:text-white transition-colors">arrow_forward</span></a>
-                <a id="social-link-tiktok" href="#" target="_blank" class="flex items-center gap-4 p-4 rounded-xl bg-[#000000]/30 border border-zinc-700 hover:bg-zinc-800 transition group"><div class="w-10 h-10 rounded-full bg-black border border-zinc-700 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform"><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.49-3.35-3.98-5.6-1.11-5.09 2.06-10.25 7.21-11.22v4.14c-2.11.38-3.79 2.14-3.93 4.31-.12 1.87 1.11 3.63 2.94 4.09 1.73.44 3.59-.28 4.58-1.76.62-.91.93-2.01.91-3.11-.01-2.46 0-4.92 0-7.38z"/></svg></div><div><h4 class="font-bold text-white group-hover:text-primary transition-colors">TikTok</h4><p class="text-[10px] text-zinc-500">Watch behind the scenes</p></div><span class="material-icons-outlined ml-auto text-zinc-600 group-hover:text-white transition-colors">arrow_forward</span></a>
+                <a id="social-link-fb" href="#" target="_blank"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-[#1877F2]/10 border border-[#1877F2]/20 hover:bg-[#1877F2]/20 transition group">
+                    <div
+                        class="w-10 h-10 rounded-full bg-[#1877F2] flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path
+                                d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white group-hover:text-[#1877F2] transition-colors">Facebook</h4>
+                        <p class="text-[10px] text-zinc-500">Connect with me</p>
+                    </div><span
+                        class="material-icons-outlined ml-auto text-zinc-600 group-hover:text-white transition-colors">arrow_forward</span>
+                </a>
+                <a id="social-link-ig" href="#" target="_blank"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-[#E4405F]/10 border border-[#E4405F]/20 hover:bg-[#E4405F]/20 transition group">
+                    <div
+                        class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#FFDC80] via-[#E4405F] to-[#C13584] flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.012-4.849-.069-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white group-hover:text-[#E4405F] transition-colors">Instagram</h4>
+                        <p class="text-[10px] text-zinc-500">See my portfolio</p>
+                    </div><span
+                        class="material-icons-outlined ml-auto text-zinc-600 group-hover:text-white transition-colors">arrow_forward</span>
+                </a>
+                <a id="social-link-tiktok" href="#" target="_blank"
+                    class="flex items-center gap-4 p-4 rounded-xl bg-[#000000]/30 border border-zinc-700 hover:bg-zinc-800 transition group">
+                    <div
+                        class="w-10 h-10 rounded-full bg-black border border-zinc-700 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform">
+                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                            <path
+                                d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.49-3.35-3.98-5.6-1.11-5.09 2.06-10.25 7.21-11.22v4.14c-2.11.38-3.79 2.14-3.93 4.31-.12 1.87 1.11 3.63 2.94 4.09 1.73.44 3.59-.28 4.58-1.76.62-.91.93-2.01.91-3.11-.01-2.46 0-4.92 0-7.38z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-white group-hover:text-primary transition-colors">TikTok</h4>
+                        <p class="text-[10px] text-zinc-500">Watch behind the scenes</p>
+                    </div><span
+                        class="material-icons-outlined ml-auto text-zinc-600 group-hover:text-white transition-colors">arrow_forward</span>
+                </a>
             </div>
         </div>
     </div>
 
     <!-- Admin Login -->
-    <div id="admin-modal" class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0">
-        <div class="bg-zinc-900 rounded-2xl p-6 w-full max-w-sm border border-zinc-800 shadow-[0_0_30px_rgba(0,0,0,0.5)] transform scale-95 transition-all duration-300" id="admin-modal-container">
+    <div id="admin-modal"
+        class="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4 transition-all duration-300 opacity-0">
+        <div class="bg-zinc-900 rounded-2xl p-6 w-full max-w-sm border border-zinc-800 shadow-[0_0_30px_rgba(0,0,0,0.5)] transform scale-95 transition-all duration-300"
+            id="admin-modal-container">
             <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-700"><span class="material-icons-outlined text-3xl text-zinc-400">lock</span></div>
-                <h3 class="text-xl font-bold text-white mb-1">Admin Access</h3><p class="text-zinc-500 text-xs">Enter password to manage portfolio.</p>
+                <div
+                    class="w-16 h-16 bg-zinc-800 rounded-full flex items-center justify-center mx-auto mb-4 border border-zinc-700">
+                    <span class="material-icons-outlined text-3xl text-zinc-400">lock</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-1">Admin Access</h3>
+                <p class="text-zinc-500 text-xs">Enter password to manage portfolio.</p>
             </div>
             <div class="space-y-4">
-                <input type="password" id="admin-password-input" class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none text-center tracking-widest" placeholder="••••••••">
+                <input type="password" id="admin-password-input"
+                    class="w-full bg-black border border-zinc-700 rounded-xl px-4 py-3 text-white focus:border-primary focus:ring-1 focus:ring-primary outline-none text-center tracking-widest"
+                    placeholder="••••••••">
                 <p id="admin-error" class="text-red-500 text-xs text-center hidden font-bold">Incorrect password!</p>
                 <div class="flex gap-3">
-                    <button onclick="closeAdminLogin()" class="flex-1 py-3 px-4 rounded-xl border border-zinc-700 text-zinc-300 font-bold text-sm hover:bg-zinc-800 transition">Cancel</button>
-                    <button onclick="submitAdminLogin()" class="flex-1 py-3 px-4 rounded-xl bg-white text-black font-bold text-sm hover:bg-zinc-200 transition">Login</button>
+                    <button onclick="closeAdminLogin()"
+                        class="flex-1 py-3 px-4 rounded-xl border border-zinc-700 text-zinc-300 font-bold text-sm hover:bg-zinc-800 transition">Cancel</button>
+                    <button onclick="submitAdminLogin()"
+                        class="flex-1 py-3 px-4 rounded-xl bg-white text-black font-bold text-sm hover:bg-zinc-200 transition">Login</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzOtfEwy55PvAxmA2ybcN1J5uw1VCOuthDT3fRu-TTaKZ5aM9Qfq9tQjwi7iwnm2r0l/exec"; 
-        
+        // ============================================
+        // CONFIGURATION (PENTING!)
+        // ============================================
+        // Masukkan Web App URL dari Google Apps Script anda di sini:
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw0E_vl6u9EVUa7i5kAt52VhEL5cLaVvV8xFUr0FcXK42H6JoXVcZ6wvBd22is3u2-e/exec";
+
         let appData = {
-            adminPassword: "amsyar'z", 
-            headerUrl: "", profileUrl: "", whatsappNumber: "", facebookUrl: "", instagramUrl: "", tiktokUrl: "", 
+            adminPassword: "amsyar'z",
+            headerUrl: "", profileUrl: "", whatsappNumber: "", facebookUrl: "", instagramUrl: "", tiktokUrl: "",
             aboutImageUrl: "", aboutBio: "", aboutYears: "", aboutProjects: "", aboutClients: "",
+            // Use Array.from to Create Unique Objects per slot (Fixes bug where all slots share same data)
             collections: [
-                { name: "Poster", items: Array(9).fill({ img:"", title:"", desc:"" }) },
-                { name: "Logo", items: Array(9).fill({ img:"", title:"", desc:"" }) }
+                { name: "Poster", items: [] },
+                { name: "Logo", items: [] }
             ]
         };
 
-        window.onload = function() {
+        window.onload = function () {
             renderTabs();
             renderAdminTabsAndPanels();
             fetchFromCloud();
         };
 
+        // --- ADDED HELPER FUNCTION ---
+        function formatWhatsAppNumber(phone) {
+            if (!phone) return "";
+            // Remove non-digits
+            let cleaned = phone.replace(/\D/g, '');
+            // Simple normalization for Malaysia (starts with 01 -> 601)
+            if (cleaned.startsWith('01')) {
+                cleaned = '60' + cleaned.substring(1);
+            }
+            return cleaned;
+        }
+
         async function fetchFromCloud() {
-            if(!GOOGLE_SCRIPT_URL) { document.getElementById('initial-loader').classList.add('hidden'); return; }
+            if (!GOOGLE_SCRIPT_URL) { document.getElementById('initial-loader').classList.add('hidden'); return; }
             try {
                 const response = await fetch(GOOGLE_SCRIPT_URL, { method: "GET", mode: "cors", credentials: "omit", redirect: "follow", headers: { "Content-Type": "text/plain;charset=utf-8" } });
                 const data = await response.json();
-                
-                if(data) {
-                    if(data.adminPassword) appData.adminPassword = data.adminPassword;
+
+                if (data) {
+                    if (data.adminPassword) appData.adminPassword = data.adminPassword;
                     appData.headerUrl = data.headerUrl || ""; appData.profileUrl = data.profileUrl || "";
                     appData.whatsappNumber = data.whatsappNumber || ""; appData.facebookUrl = data.facebookUrl || ""; appData.instagramUrl = data.instagramUrl || ""; appData.tiktokUrl = data.tiktokUrl || "";
                     appData.aboutImageUrl = data.aboutImageUrl || ""; appData.aboutBio = data.aboutBio || "Hello!"; appData.aboutYears = data.aboutYears || "6+"; appData.aboutProjects = data.aboutProjects || "120+"; appData.aboutClients = data.aboutClients || "50+";
-                    
-                    // RECONSTRUCT COLLECTIONS
-                    // 1. Check if we have tabStructure
+
                     if (data.tabStructure) {
                         try {
                             const tabNames = JSON.parse(data.tabStructure);
                             appData.collections = tabNames.map((name, cIdx) => {
                                 const items = [];
-                                for(let i=0; i<9; i++) {
-                                    items.push({
-                                        img: data['col_'+cIdx+'_img_'+i] || "",
-                                        title: data['col_'+cIdx+'_title_'+i] || "",
-                                        desc: data['col_'+cIdx+'_desc_'+i] || ""
-                                    });
+                                let i = 0;
+                                while (true) {
+                                    const img = data['col_' + cIdx + '_img_' + i];
+                                    const title = data['col_' + cIdx + '_title_' + i];
+                                    const desc = data['col_' + cIdx + '_desc_' + i];
+                                    if (img === undefined && title === undefined && desc === undefined) break;
+                                    items.push({ img: img || "", title: title || "", desc: desc || "" });
+                                    i++;
                                 }
                                 return { name: name, items: items };
                             });
-                        } catch(e) { console.error("Error parsing tabs", e); }
-                    } else {
-                        // Fallback for old data or empty sheet
-                        // Try to load default Poster/Logo if data exists under old keys (optional backward compat, skipping for clean start)
+                        } catch (e) { console.error("Error parsing tabs", e); }
                     }
-                    
+
                     loadImagesFromData();
                     renderTabs();
                     renderAdminTabsAndPanels();
                 }
-            } catch (error) { console.error("Failed to fetch:", error); } 
+            } catch (error) { console.error("Failed to fetch:", error); }
             finally { document.getElementById('initial-loader').classList.add('hidden'); }
         }
 
         async function saveToCloud() {
-            if(!GOOGLE_SCRIPT_URL) { alert("Script URL missing!"); return; }
-            const btns = document.querySelectorAll('button[onclick="saveAdminSettings()"]');
-            btns.forEach(btn => { btn.innerHTML = `<span class="material-icons-outlined animate-spin">sync</span> Saving...`; btn.disabled = true; btn.classList.add('opacity-50'); });
+            if (!GOOGLE_SCRIPT_URL) { alert("Script URL missing!"); return; }
+
+            // Show auto-save toast instead of blocking UI for small actions
+            showToast("Saving changes to cloud...");
 
             const payload = {
                 headerUrl: appData.headerUrl, profileUrl: appData.profileUrl, whatsappNumber: appData.whatsappNumber,
                 facebookUrl: appData.facebookUrl, instagramUrl: appData.instagramUrl, tiktokUrl: appData.tiktokUrl,
                 aboutImageUrl: appData.aboutImageUrl, aboutBio: appData.aboutBio, aboutYears: appData.aboutYears, aboutProjects: appData.aboutProjects, aboutClients: appData.aboutClients,
-                collections: appData.collections // Sending full dynamic structure
+                collections: appData.collections
             };
 
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', credentials: 'omit', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
-                playSuccessSound(); showToast("System updated successfully!");
-            } catch (error) { console.error("Save failed:", error); showToast("Failed to save."); } 
-            finally { btns.forEach(btn => { btn.innerHTML = `<span class="material-icons-outlined">cloud_upload</span> Save & Sync`; btn.disabled = false; btn.classList.remove('opacity-50'); }); }
+                playSuccessSound();
+                showToast("System updated successfully!");
+            } catch (error) { console.error("Save failed:", error); showToast("Failed to save."); }
         }
 
-        // --- CORE FUNCTIONS ---
+        function updateModelFromView() {
+            // Global
+            const headerIn = document.getElementById('admin-header-url'); if (headerIn) appData.headerUrl = convertGoogleDriveLink(headerIn.value);
+            const profileIn = document.getElementById('admin-profile-url'); if (profileIn) appData.profileUrl = convertGoogleDriveLink(profileIn.value);
+            const waIn = document.getElementById('admin-whatsapp'); if (waIn) appData.whatsappNumber = waIn.value;
+            const fbIn = document.getElementById('admin-facebook'); if (fbIn) appData.facebookUrl = fbIn.value;
+            const igIn = document.getElementById('admin-instagram'); if (igIn) appData.instagramUrl = igIn.value;
+            const ttIn = document.getElementById('admin-tiktok'); if (ttIn) appData.tiktokUrl = ttIn.value;
+
+            // About
+            const abImg = document.getElementById('admin-about-img'); if (abImg) appData.aboutImageUrl = convertGoogleDriveLink(abImg.value);
+            const abBio = document.getElementById('admin-about-bio'); if (abBio) appData.aboutBio = abBio.value;
+            const abYrs = document.getElementById('admin-about-years'); if (abYrs) appData.aboutYears = abYrs.value;
+            const abPrj = document.getElementById('admin-about-projects'); if (abPrj) appData.aboutProjects = abPrj.value;
+            const abCli = document.getElementById('admin-about-clients'); if (abCli) appData.aboutClients = abCli.value;
+
+            // Collections
+            appData.collections.forEach((col, index) => {
+                col.items.forEach((item, i) => {
+                    const imgInput = document.getElementById(`admin-col-${index}-img-${i}`);
+                    const titleInput = document.getElementById(`admin-col-${index}-title-${i}`);
+                    const descInput = document.getElementById(`admin-col-${index}-desc-${i}`);
+                    if (imgInput) item.img = convertGoogleDriveLink(imgInput.value);
+                    if (titleInput) item.title = titleInput.value;
+                    if (descInput) item.desc = descInput.value;
+                });
+            });
+        }
+
+        function convertGoogleDriveLink(url) {
+            if (!url) return ""; if (url.includes('lh3.googleusercontent.com') || url.includes('googleusercontent.com')) return url; let id = ""; const parts = url.split('/'); const dIndex = parts.indexOf('d'); if (dIndex !== -1 && parts.length > dIndex + 1) { id = parts[dIndex + 1]; } else if (url.indexOf('id=') !== -1) { const match = url.match(/[\?&]id=([^&#]*)/); if (match) id = match[1]; } if (id) return `https://lh3.googleusercontent.com/d/${id}`; return url;
+        }
+
         function renderTabs() {
             const container = document.getElementById('public-tabs-container');
-            // Keep About tab, remove others
             const staticTab = document.getElementById('tab-about');
             container.innerHTML = '';
             container.appendChild(staticTab);
@@ -427,7 +725,6 @@
                 container.appendChild(btn);
             });
 
-            // Render Grids
             const contentContainer = document.getElementById('dynamic-content-container');
             contentContainer.innerHTML = '';
             appData.collections.forEach((col, index) => {
@@ -437,21 +734,21 @@
                 div.innerHTML = `<div class="grid grid-cols-3 gap-2">${generateGridHTML(index)}</div>`;
                 contentContainer.appendChild(div);
             });
-            
-            // Re-run loadImages to populate new grids
             loadImagesFromData();
         }
 
         function generateGridHTML(colIndex) {
             let html = '';
-            for(let i = 0; i < 9; i++) {
+            // Loop through ACTUAL items length, not fixed 9
+            const items = appData.collections[colIndex].items;
+            items.forEach((item, i) => {
                 let badgeHTML = '', borderClass = 'border border-zinc-800', iconColor = 'text-zinc-800', iconType = 'image';
                 if (i === 0) { badgeHTML = `<div class="absolute top-0 left-0 bg-gradient-to-br from-yellow-400 to-yellow-600 text-black text-[10px] font-black px-2 py-1 rounded-br-lg shadow-lg z-10 flex items-center gap-1"><span class="material-icons-outlined text-[14px]">emoji_events</span> 1st</div>`; borderClass = 'border-2 border-yellow-500/60 shadow-[0_0_15px_rgba(234,179,8,0.15)]'; iconColor = 'text-yellow-600/50'; iconType = 'emoji_events'; }
                 else if (i === 1) { badgeHTML = `<div class="absolute top-0 left-0 bg-gradient-to-br from-gray-300 to-gray-500 text-black text-[10px] font-black px-2 py-1 rounded-br-lg shadow-lg z-10 flex items-center gap-1"><span class="material-icons-outlined text-[14px]">military_tech</span> 2nd</div>`; borderClass = 'border-2 border-zinc-400/50'; iconColor = 'text-zinc-500/50'; iconType = 'military_tech'; }
                 else if (i === 2) { badgeHTML = `<div class="absolute top-0 left-0 bg-gradient-to-br from-orange-400 to-orange-700 text-white text-[10px] font-black px-2 py-1 rounded-br-lg shadow-lg z-10 flex items-center gap-1"><span class="material-icons-outlined text-[14px]">workspace_premium</span> 3rd</div>`; borderClass = 'border-2 border-orange-700/50'; iconColor = 'text-orange-700/50'; iconType = 'workspace_premium'; }
-                
+
                 html += `<div onclick="openModal(${colIndex}, ${i})" class="relative overflow-hidden aspect-[4/5] bg-zinc-900 rounded-lg ${borderClass} flex items-center justify-center hover:bg-zinc-800 transition-colors cursor-pointer group">${badgeHTML}<img id="img-col-${colIndex}-${i}" class="absolute inset-0 w-full h-full object-cover hidden" src=""><span class="material-icons-outlined ${iconColor} text-3xl group-hover:scale-110 transition-transform">${iconType}</span></div>`;
-            }
+            });
             return html;
         }
 
@@ -459,198 +756,214 @@
             document.getElementById('header-img-display').src = appData.headerUrl || "https://placehold.co/600x200/1a1a1a/FFF?text=No+Image";
             const profileImg = document.getElementById('profile-img-display');
             if (appData.profileUrl) { profileImg.src = appData.profileUrl; profileImg.classList.remove('hidden'); profileImg.nextElementSibling.style.display = 'none'; } else { profileImg.classList.add('hidden'); profileImg.nextElementSibling.style.display = 'flex'; }
-            
+
             document.getElementById('about-bio-display').innerText = appData.aboutBio;
             document.getElementById('about-years-display').innerText = appData.aboutYears;
             document.getElementById('about-projects-display').innerText = appData.aboutProjects;
             document.getElementById('about-clients-display').innerText = appData.aboutClients;
-            
+
             const aboutImg = document.getElementById('about-img-display');
             if (appData.aboutImageUrl) { aboutImg.src = appData.aboutImageUrl; aboutImg.classList.remove('hidden'); aboutImg.nextElementSibling.style.display = 'none'; } else { aboutImg.classList.add('hidden'); aboutImg.nextElementSibling.style.display = 'flex'; }
 
             appData.collections.forEach((col, cIdx) => {
                 col.items.forEach((item, i) => {
                     const img = document.getElementById(`img-col-${cIdx}-${i}`);
-                    if(img) {
-                        if(item.img) { img.src = item.img; img.classList.remove('hidden'); } else { img.classList.add('hidden'); }
+                    if (img) {
+                        if (item.img) { img.src = item.img; img.classList.remove('hidden'); } else { img.classList.add('hidden'); }
                     }
                 });
             });
         }
 
         function renderAdminTabsAndPanels() {
-            // Only re-render dynamic parts
             const tabsContainer = document.getElementById('admin-tabs-container');
             const panelsContainer = document.getElementById('admin-dynamic-panels-container');
-            
-            // Keep Static buttons
-            const staticBtns = tabsContainer.querySelectorAll('button[id^="btn-admin-global"], button[id^="btn-admin-about"]');
-            const addBtn = tabsContainer.querySelector('button[onclick="addNewCollection()"]');
-            
-            tabsContainer.innerHTML = '';
-            staticBtns.forEach(b => tabsContainer.appendChild(b));
+
+            let tabsHTML = `
+                <button id="btn-admin-global" onclick="switchAdminTab('global')" class="flex-1 min-w-[80px] py-2 px-3 text-xs font-bold rounded-lg bg-primary text-black transition-all whitespace-nowrap">Global</button>
+                <button id="btn-admin-about" onclick="switchAdminTab('about')" class="flex-1 min-w-[80px] py-2 px-3 text-xs font-bold rounded-lg text-zinc-500 hover:text-white transition-all whitespace-nowrap">About</button>
+            `;
 
             panelsContainer.innerHTML = '';
 
             appData.collections.forEach((col, index) => {
-                // 1. Create Tab Button
-                const btn = document.createElement('button');
-                btn.id = `btn-admin-col-${index}`;
-                btn.className = "flex-1 min-w-[80px] py-2 px-3 text-xs font-bold rounded-lg text-zinc-500 hover:text-white transition-all whitespace-nowrap";
-                btn.innerText = col.name;
-                btn.onclick = () => switchAdminTab(`col-${index}`);
-                tabsContainer.appendChild(btn);
+                tabsHTML += `<button id="btn-admin-col-${index}" onclick="switchAdminTab('col-${index}')" class="flex-1 min-w-[80px] py-2 px-3 text-xs font-bold rounded-lg text-zinc-500 hover:text-white transition-all whitespace-nowrap">${col.name}</button>`;
 
-                // 2. Create Panel
+                let gridInputs = '';
+                col.items.forEach((item, i) => {
+                    let label = `Slot ${i + 1}`;
+                    let bgClass = "bg-zinc-800/50 border-zinc-700/50";
+                    if (i === 0) { label = `🏆 Slot 1 (Champion)`; bgClass = "bg-yellow-900/10 border-yellow-500/30"; }
+                    if (i === 1) { label = `🥈 Slot 2 (Silver)`; bgClass = "bg-zinc-800 border-zinc-500/30"; }
+                    if (i === 2) { label = `🥉 Slot 3 (Bronze)`; bgClass = "bg-orange-900/10 border-orange-500/30"; }
+
+                    gridInputs += `
+                    <div class="p-3 ${bgClass} rounded-xl border mb-2 fade-in">
+                        <label class="text-xs font-bold text-zinc-400 mb-2 block flex items-center justify-between">
+                            <span>${label}</span>
+                            <button onclick="removeSlot(${index}, ${i})" class="text-[10px] text-red-500 hover:text-red-400 hover:underline">Remove Slot</button>
+                        </label>
+                        <div class="flex gap-2 mb-2">
+                            <input type="text" id="admin-col-${index}-img-${i}" class="admin-input" placeholder="Image Link..." value="${item.img || ''}">
+                             <!-- Clear btn still useful for just clearing text -->
+                             <button onclick="clearImage(${index}, ${i})" type="button" class="w-10 bg-zinc-700/20 hover:bg-zinc-700/40 text-zinc-400 rounded-lg flex items-center justify-center border border-zinc-600/30 transition-colors" title="Clear Text"><span class="material-icons-outlined text-sm">backspace</span></button>
+                        </div>
+                        <input type="text" id="admin-col-${index}-title-${i}" class="admin-input mb-2 text-xs" placeholder="Project Title..." value="${item.title || ''}">
+                        <textarea id="admin-col-${index}-desc-${i}" class="admin-input text-xs h-16" placeholder="Short description...">${item.desc || ''}</textarea>
+                    </div>`;
+                });
+
                 const panel = document.createElement('div');
                 panel.id = `admin-panel-col-${index}`;
                 panel.className = "hidden fade-in space-y-6";
-                
-                // Panel Content
-                let gridInputs = '';
-                for(let i=0; i<9; i++) {
-                    let label = `Slot ${i+1}`;
-                    let bgClass = "bg-zinc-800/50 border-zinc-700/50";
-                    if(i===0) { label = `🏆 Slot 1 (Champion)`; bgClass = "bg-yellow-900/10 border-yellow-500/30"; }
-                    if(i===1) { label = `🥈 Slot 2 (Silver)`; bgClass = "bg-zinc-800 border-zinc-500/30"; }
-                    if(i===2) { label = `🥉 Slot 3 (Bronze)`; bgClass = "bg-orange-900/10 border-orange-500/30"; }
-                    
-                    gridInputs += `
-                    <div class="p-3 ${bgClass} rounded-xl border mb-2">
-                        <label class="text-xs font-bold text-zinc-400 mb-2 block flex items-center gap-1">${label}</label>
-                        <div class="flex gap-2 mb-2">
-                            <input type="text" id="admin-col-${index}-img-${i}" class="admin-input" placeholder="Image Link..." value="${col.items[i]?.img || ''}">
-                            <button onclick="clearImage(${index}, ${i})" class="w-10 bg-red-500/20 hover:bg-red-500/40 text-red-500 rounded-lg flex items-center justify-center border border-red-500/30"><span class="material-icons-outlined">delete</span></button>
-                        </div>
-                        <input type="text" id="admin-col-${index}-title-${i}" class="admin-input mb-2 text-xs" placeholder="Project Title..." value="${col.items[i]?.title || ''}">
-                        <textarea id="admin-col-${index}-desc-${i}" class="admin-input text-xs h-16" placeholder="Short description...">${col.items[i]?.desc || ''}</textarea>
-                    </div>`;
-                }
-
                 panel.innerHTML = `
                     <div class="bg-zinc-900/50 p-5 rounded-2xl border border-zinc-800">
                         <h3 class="text-primary font-black uppercase text-xs tracking-widest flex items-center justify-between mb-4">
                             <span class="flex items-center gap-2"><span class="material-icons-outlined text-lg">folder</span> ${col.name} Collection</span>
                             <div class="flex gap-2">
-                                <button onclick="renameCollection(${index})" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-2 py-1 rounded text-white border border-zinc-700">Rename</button>
+                                <button onclick="renameCollection(${index})" class="text-xs bg-zinc-800 hover:bg-zinc-700 px-2 py-1 rounded text-white border border-zinc-700">Rename Tab</button>
                                 <button onclick="deleteCollection(${index})" class="text-xs bg-red-900/20 hover:bg-red-900/40 text-red-500 px-2 py-1 rounded border border-red-500/30">Delete Tab</button>
                             </div>
                         </h3>
                         <div class="grid gap-4">${gridInputs}</div>
+                        
+                        <!-- ADD NEW SLOT BUTTON -->
+                        <button onclick="addSlot(${index})" class="w-full py-3 mt-4 border-2 border-dashed border-zinc-700 text-zinc-500 rounded-xl hover:border-primary hover:text-primary transition-colors flex items-center justify-center gap-2 font-bold text-xs uppercase tracking-wider">
+                            <span class="material-icons-outlined">add_circle</span> Add New Slot
+                        </button>
                     </div>
                     <div class="pt-4 pb-10"><button onclick="saveAdminSettings()" class="w-full bg-primary hover:bg-yellow-400 text-black font-black py-4 rounded-xl shadow-[0_0_20px_rgba(255,208,0,0.2)] active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-wide"><span class="material-icons-outlined">cloud_upload</span> Save &amp; Sync</button></div>
                 `;
                 panelsContainer.appendChild(panel);
             });
 
-            tabsContainer.appendChild(addBtn); // Append Add button at end
+            tabsHTML += `<button onclick="addNewCollection()" class="min-w-[40px] py-2 px-3 text-xs font-bold rounded-lg bg-zinc-800 text-green-500 hover:bg-zinc-700 transition-all border border-zinc-700"><span class="material-icons-outlined text-sm">add</span></button>`;
+
+            tabsContainer.innerHTML = tabsHTML;
         }
 
-        // --- ADMIN DYNAMIC LOGIC ---
+        // --- NEW SLOTS FUNCTIONS ---
+        function addSlot(colIndex) {
+            updateModelFromView(); // Save current state first
+            appData.collections[colIndex].items.push({ img: "", title: "", desc: "" });
+            renderAdminTabsAndPanels(); // Re-render admin UI
+            switchAdminTab(`col-${colIndex}`); // Keep current tab active
+            // Note: We don't auto-save to cloud on Add Slot to save quota, user hits 'Save & Sync'
+            // But user requested "berjaya macam tab tadi" (success like tab), tab auto-saves.
+            // Let's AUTO SAVE to be consistent.
+            saveToCloud();
+        }
+
+        function removeSlot(colIndex, itemIndex) {
+            updateModelFromView(); // Save state
+            if (confirm("Remove this slot permanently?")) {
+                appData.collections[colIndex].items.splice(itemIndex, 1);
+                renderAdminTabsAndPanels();
+                switchAdminTab(`col-${colIndex}`);
+                saveToCloud(); // Auto save
+            }
+        }
+
         function addNewCollection() {
+            updateModelFromView(); // Sync first
             const name = prompt("Enter new Tab Name (e.g. 'Photography'):");
-            if(name) {
-                appData.collections.push({ name: name, items: Array(9).fill({ img:"", title:"", desc:"" }) });
+            if (name) {
+                appData.collections.push({ name: name, items: [] });
                 renderTabs();
                 renderAdminTabsAndPanels();
-                switchAdminTab(`col-${appData.collections.length-1}`);
+                switchAdminTab(`col-${appData.collections.length - 1}`);
+                saveToCloud(); // Realtime save
             }
         }
 
         function deleteCollection(index) {
-            if(confirm(`Are you sure you want to delete the "${appData.collections[index].name}" tab? This cannot be undone.`)) {
+            updateModelFromView(); // Sync first
+            if (confirm(`Delete "${appData.collections[index].name}" tab?`)) {
                 appData.collections.splice(index, 1);
                 renderTabs();
                 renderAdminTabsAndPanels();
                 switchAdminTab('global');
+                saveToCloud(); // Realtime save
             }
         }
 
         function renameCollection(index) {
+            updateModelFromView(); // Sync first
             const newName = prompt("Rename Tab:", appData.collections[index].name);
-            if(newName) {
+            if (newName) {
                 appData.collections[index].name = newName;
                 renderTabs();
                 renderAdminTabsAndPanels();
+                switchAdminTab(`col-${index}`);
+                saveToCloud(); // Realtime save
             }
         }
 
         function clearImage(colIndex, itemIndex) {
-            document.getElementById(`admin-col-${colIndex}-img-${itemIndex}`).value = "";
-            document.getElementById(`admin-col-${colIndex}-title-${itemIndex}`).value = "";
-            document.getElementById(`admin-col-${colIndex}-desc-${itemIndex}`).value = "";
+            updateModelFromView(); // Sync first (important to keep other inputs)
+
+            // Update DOM visual immediately
+            const imgInput = document.getElementById(`admin-col-${colIndex}-img-${itemIndex}`);
+            const titleInput = document.getElementById(`admin-col-${colIndex}-title-${itemIndex}`);
+            const descInput = document.getElementById(`admin-col-${colIndex}-desc-${itemIndex}`);
+
+            if (imgInput) imgInput.value = "";
+            if (titleInput) titleInput.value = "";
+            if (descInput) descInput.value = "";
+
+            // Update Data Model
+            if (appData.collections[colIndex] && appData.collections[colIndex].items[itemIndex]) {
+                appData.collections[colIndex].items[itemIndex] = { img: "", title: "", desc: "" };
+            }
+
+            // Realtime save & Update UI
+            loadImagesFromData(); // Refresh UI instantly
+            saveToCloud();
         }
 
-        // --- PUBLIC HELPERS ---
         function switchTab(t) {
-            // Hide all content first
             document.getElementById('content-about').classList.add('hidden');
             const dynamicContent = document.getElementById('dynamic-content-container').children;
-            for(let dc of dynamicContent) dc.classList.add('hidden');
+            for (let dc of dynamicContent) dc.classList.add('hidden');
 
-            // Reset Tab Styles
             const allTabs = document.getElementById('public-tabs-container').children;
-            for(let tab of allTabs) tab.className = "py-4 text-sm font-medium text-zinc-500 hover:text-white transition whitespace-nowrap border-b-2 border-transparent";
+            for (let tab of allTabs) tab.className = "py-4 text-sm font-medium text-zinc-500 hover:text-white transition whitespace-nowrap border-b-2 border-transparent";
 
-            // Activate Selected
-            if(t === 'about') {
+            if (t === 'about') {
                 document.getElementById('tab-about').className = "py-4 text-sm font-bold text-white border-b-2 border-primary relative whitespace-nowrap";
                 document.getElementById('content-about').classList.remove('hidden');
             } else if (t.startsWith('col-')) {
-                document.getElementById(`tab-${t}`).className = "py-4 text-sm font-bold text-white border-b-2 border-primary relative whitespace-nowrap";
-                document.getElementById(`content-${t}`).classList.remove('hidden');
+                const tabBtn = document.getElementById(`tab-${t}`);
+                if (tabBtn) tabBtn.className = "py-4 text-sm font-bold text-white border-b-2 border-primary relative whitespace-nowrap";
+                const contentDiv = document.getElementById(`content-${t}`);
+                if (contentDiv) contentDiv.classList.remove('hidden');
             }
         }
 
-        // --- ADMIN TABS LOGIC ---
         function switchAdminTab(tabName) {
-            // Hide all panels
             document.getElementById('admin-panel-global').classList.add('hidden');
             document.getElementById('admin-panel-about').classList.add('hidden');
             const dynamicPanels = document.getElementById('admin-dynamic-panels-container').children;
-            for(let p of dynamicPanels) p.classList.add('hidden');
+            for (let p of dynamicPanels) p.classList.add('hidden');
 
-            // Reset Buttons
             const btns = document.getElementById('admin-tabs-container').querySelectorAll('button[id^="btn-admin-"]');
             btns.forEach(b => {
                 b.classList.remove('bg-primary', 'text-black');
                 b.classList.add('text-zinc-500', 'hover:text-white');
             });
 
-            // Activate Target
             const targetBtn = document.getElementById(`btn-admin-${tabName}`);
             const targetPanel = document.getElementById(`admin-panel-${tabName}`);
-            
-            if(targetBtn && targetPanel) {
+
+            if (targetBtn && targetPanel) {
                 targetBtn.classList.remove('text-zinc-500', 'hover:text-white');
                 targetBtn.classList.add('bg-primary', 'text-black');
                 targetPanel.classList.remove('hidden');
             }
         }
 
-        // --- SAVE LOGIC UPDATE ---
         function saveAdminSettings() {
-            appData.headerUrl = convertGoogleDriveLink(document.getElementById('admin-header-url').value);
-            appData.profileUrl = convertGoogleDriveLink(document.getElementById('admin-profile-url').value);
-            appData.whatsappNumber = document.getElementById('admin-whatsapp').value;
-            appData.facebookUrl = document.getElementById('admin-facebook').value;
-            appData.instagramUrl = document.getElementById('admin-instagram').value;
-            appData.tiktokUrl = document.getElementById('admin-tiktok').value;
-            appData.aboutImageUrl = convertGoogleDriveLink(document.getElementById('admin-about-img').value);
-            appData.aboutBio = document.getElementById('admin-about-bio').value;
-            appData.aboutYears = document.getElementById('admin-about-years').value;
-            appData.aboutProjects = document.getElementById('admin-about-projects').value;
-            appData.aboutClients = document.getElementById('admin-about-clients').value;
-            
-            // Loop through Collections dynamically
-            appData.collections.forEach((col, index) => {
-                for(let i=0; i<9; i++) {
-                    col.items[i].img = convertGoogleDriveLink(document.getElementById(`admin-col-${index}-img-${i}`).value);
-                    col.items[i].title = document.getElementById(`admin-col-${index}-title-${i}`).value;
-                    col.items[i].desc = document.getElementById(`admin-col-${index}-desc-${i}`).value;
-                }
-            });
-            
+            updateModelFromView(); // Consolidate current inputs
             enableAdminMode(); // Refresh visuals
             saveToCloud();
         }
@@ -658,53 +971,56 @@
         function enableAdminMode() {
             document.getElementById('public-view').classList.add('hidden');
             document.getElementById('admin-view').classList.remove('hidden');
-            
+
             document.getElementById('admin-header-url').value = appData.headerUrl;
             document.getElementById('admin-profile-url').value = appData.profileUrl;
             document.getElementById('admin-whatsapp').value = appData.whatsappNumber;
             document.getElementById('admin-facebook').value = appData.facebookUrl;
             document.getElementById('admin-instagram').value = appData.instagramUrl;
             document.getElementById('admin-tiktok').value = appData.tiktokUrl;
-            
-            document.getElementById('admin-about-img').value = appData.aboutImageUrl; 
+            document.getElementById('admin-about-img').value = appData.aboutImageUrl;
             document.getElementById('admin-about-bio').value = appData.aboutBio;
             document.getElementById('admin-about-years').value = appData.aboutYears;
             document.getElementById('admin-about-projects').value = appData.aboutProjects;
             document.getElementById('admin-about-clients').value = appData.aboutClients;
-            
-            // Render Dynamic Inputs
+
             renderAdminTabsAndPanels();
-            
-            window.scrollTo(0,0); alert("Welcome Admin!");
+
+            const activeBtn = document.querySelector('#admin-tabs-container .bg-primary');
+            if (!activeBtn) switchAdminTab('global');
+
+            window.scrollTo(0, 0);
         }
 
-        // ... [Include standard auth/modal functions here same as before] ...
-        function convertGoogleDriveLink(url) {
-            if (!url) return ""; if (url.includes('lh3.googleusercontent.com') || url.includes('googleusercontent.com')) return url; let id = ""; const parts = url.split('/'); const dIndex = parts.indexOf('d'); if (dIndex !== -1 && parts.length > dIndex + 1) { id = parts[dIndex + 1]; } else if (url.indexOf('id=') !== -1) { const match = url.match(/[\?&]id=([^&#]*)/); if (match) id = match[1]; } if (id) return `https://lh3.googleusercontent.com/d/${id}`; return url;
+        function logoutAdmin() {
+            document.getElementById('admin-view').classList.add('hidden');
+            document.getElementById('public-view').classList.remove('hidden');
+            fetchFromCloud();
+            window.scrollTo(0, 0);
         }
-        function openModal(cIdx, i) {
-            const modal = document.getElementById('image-modal'), container = document.getElementById('modal-container');
-            const item = appData.collections[cIdx].items[i];
-            const url = item.img;
-            document.getElementById('modal-title').innerText = item.title || "Project Details";
-            document.getElementById('modal-desc').innerText = item.desc || "No description available.";
-            const realImg = document.getElementById('modal-img-real'), icon = document.getElementById('modal-icon'), badge = document.getElementById('modal-badge');
-            if(url) { realImg.src = url; realImg.classList.remove('hidden'); icon.classList.add('hidden'); } else { realImg.classList.add('hidden'); icon.classList.remove('hidden'); }
-            if (i === 0) { badge.innerHTML = "1st Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-black bg-gradient-to-r from-yellow-400 to-yellow-600 shadow block"; }
-            else if (i === 1) { badge.innerHTML = "2nd Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-black bg-gradient-to-r from-gray-300 to-gray-500 shadow block"; }
-            else if (i === 2) { badge.innerHTML = "3rd Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-white bg-gradient-to-r from-orange-500 to-orange-700 shadow block"; }
-            else { badge.className = "hidden"; }
-            modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); container.classList.remove('scale-95'); container.classList.add('scale-100'); }, 10);
-        }
+
+        function openModal(cIdx, i) { const modal = document.getElementById('image-modal'), container = document.getElementById('modal-container'); const item = appData.collections[cIdx].items[i]; const url = item.img; document.getElementById('modal-title').innerText = item.title || "Project Details"; document.getElementById('modal-desc').innerText = item.desc || "No description available."; const realImg = document.getElementById('modal-img-real'), icon = document.getElementById('modal-icon'), badge = document.getElementById('modal-badge'); if (url) { realImg.src = url; realImg.classList.remove('hidden'); icon.classList.add('hidden'); } else { realImg.classList.add('hidden'); icon.classList.remove('hidden'); } if (i === 0) { badge.innerHTML = "1st Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-black bg-gradient-to-r from-yellow-400 to-yellow-600 shadow block"; } else if (i === 1) { badge.innerHTML = "2nd Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-black bg-gradient-to-r from-gray-300 to-gray-500 shadow block"; } else if (i === 2) { badge.innerHTML = "3rd Place"; badge.className = "text-[10px] font-black px-2 py-0.5 rounded text-white bg-gradient-to-r from-orange-500 to-orange-700 shadow block"; } else { badge.className = "hidden"; } modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); container.classList.remove('scale-95'); container.classList.add('scale-100'); }, 10); }
         function closeModal() { const modal = document.getElementById('image-modal'), container = document.getElementById('modal-container'); modal.classList.add('opacity-0'); container.classList.remove('scale-100'); container.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300); }
-        function openWhatsAppModal() { document.getElementById('whatsapp-modal').classList.remove('hidden'); setTimeout(() => { document.getElementById('whatsapp-modal').classList.remove('opacity-0'); document.getElementById('whatsapp-modal-container').classList.add('scale-100'); }, 10); }
+        function openWhatsAppModal() {
+            document.getElementById('whatsapp-modal').classList.remove('hidden');
+            setTimeout(() => {
+                document.getElementById('whatsapp-modal').classList.remove('opacity-0');
+                document.getElementById('whatsapp-modal-container').classList.add('scale-100');
+                const cleanedNum = formatWhatsAppNumber(appData.whatsappNumber);
+                document.getElementById('wa-link-btn').href = "https://wa.me/" + cleanedNum;
+            }, 10);
+        }
         function closeWhatsAppModal() { document.getElementById('whatsapp-modal').classList.add('opacity-0'); document.getElementById('whatsapp-modal-container').classList.remove('scale-100'); setTimeout(() => { document.getElementById('whatsapp-modal').classList.add('hidden'); }, 300); }
-        function proceedWhatsApp() { let num = appData.whatsappNumber || "60123456789"; num = num.replace(/[^0-9]/g, ''); window.open("https://wa.me/" + num, '_blank'); closeWhatsAppModal(); }
+        function proceedWhatsApp() {
+            const cleanedNum = formatWhatsAppNumber(appData.whatsappNumber);
+            window.open("https://wa.me/" + cleanedNum, '_blank');
+            closeWhatsAppModal();
+        }
         function showToast(message) { const toast = document.getElementById('toast-notification'); document.getElementById('toast-message').innerText = message; toast.classList.remove('translate-x-[150%]', 'opacity-0'); setTimeout(() => { toast.classList.add('translate-x-[150%]', 'opacity-0'); }, 3000); }
         let audioContext = null;
         function playClickSound() { if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)(); if (audioContext.state === 'suspended') audioContext.resume(); const osc = audioContext.createOscillator(), gain = audioContext.createGain(); osc.connect(gain); gain.connect(audioContext.destination); osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioContext.currentTime); osc.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.05); gain.gain.setValueAtTime(0.08, audioContext.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05); osc.start(); osc.stop(audioContext.currentTime + 0.05); }
         function playSuccessSound() { if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)(); if (audioContext.state === 'suspended') audioContext.resume(); const now = audioContext.currentTime, osc1 = audioContext.createOscillator(), osc2 = audioContext.createOscillator(), gain = audioContext.createGain(); osc1.type = 'sine'; osc2.type = 'sine'; osc1.frequency.setValueAtTime(1046.50, now); osc2.frequency.setValueAtTime(1318.51, now); osc1.connect(gain); osc2.connect(gain); gain.connect(audioContext.destination); gain.gain.setValueAtTime(0, now); gain.gain.linearRampToValueAtTime(0.1, now + 0.05); gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5); osc1.start(now); osc2.start(now); osc1.stop(now + 1.5); osc2.stop(now + 1.5); }
-        document.addEventListener('click', function(e) { if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.cursor-pointer')) { playClickSound(); } });
+        document.addEventListener('click', function (e) { if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.cursor-pointer')) { playClickSound(); } });
         function openAdminLogin() { const modal = document.getElementById('admin-modal'), container = document.getElementById('admin-modal-container'); modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); container.classList.remove('scale-95'); container.classList.add('scale-100'); }, 10); document.getElementById('admin-password-input').value = ''; document.getElementById('admin-error').classList.add('hidden'); }
         function closeAdminLogin() { const modal = document.getElementById('admin-modal'), container = document.getElementById('admin-modal-container'); modal.classList.add('opacity-0'); container.classList.remove('scale-100'); container.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300); }
         function submitAdminLogin() { if (document.getElementById('admin-password-input').value === appData.adminPassword) { closeAdminLogin(); enableAdminMode(); } else { document.getElementById('admin-error').classList.remove('hidden'); } }
@@ -712,4 +1028,5 @@
         function closeSocialModal() { const modal = document.getElementById('social-modal'), container = document.getElementById('social-modal-container'); modal.classList.add('opacity-0'); container.classList.remove('scale-100'); container.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300); }
     </script>
 </body>
+
 </html>
