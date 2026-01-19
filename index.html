@@ -133,21 +133,43 @@
         <p class="text-zinc-500 text-xs font-mono animate-pulse">SYNCING SYSTEM...</p>
     </div>
 
-    <!-- TOAST NOTIFICATION -->
-    <div id="toast-notification"
-        class="fixed top-6 right-6 z-[300] transform transition-all duration-500 translate-x-[150%] opacity-0 pointer-events-none">
-        <div
-            class="bg-zinc-900/95 backdrop-blur-md border border-green-500/20 shadow-2xl rounded-xl p-4 flex items-center gap-3 min-w-[280px] shadow-green-900/10">
-            <div
-                class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 shrink-0">
-                <span id="toast-icon" class="material-icons-outlined text-xl">check_circle</span>
-            </div>
-            <div>
-                <h4 id="toast-title" class="text-sm font-bold text-white">Success</h4>
-                <p id="toast-message" class="text-xs text-zinc-400">Settings saved successfully.</p>
-            </div>
-        </div>
-    </div>
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toast-container" class="fixed top-5 right-5 z-[300] flex flex-col gap-2 pointer-events-none"></div>
+
+    <style>
+        /* Custom Animations */
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOutRight {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        .toast-enter {
+            animation: slideInRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .toast-exit {
+            animation: fadeOutRight 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
 
     <!-- PUBLIC VIEW -->
     <div id="public-view" class="min-h-screen bg-black transition-opacity duration-300">
@@ -661,7 +683,7 @@
             if (!GOOGLE_SCRIPT_URL) { alert("Script URL missing!"); return; }
 
             // Show auto-save toast instead of blocking UI for small actions
-            showToast("Saving changes to cloud...");
+            showToast("Saving changes to cloud...", "warning");
 
             const payload = {
                 headerUrl: appData.headerUrl, profileUrl: appData.profileUrl, whatsappNumber: appData.whatsappNumber,
@@ -673,8 +695,8 @@
             try {
                 await fetch(GOOGLE_SCRIPT_URL, { method: 'POST', mode: 'no-cors', credentials: 'omit', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
                 playSuccessSound();
-                showToast("System updated successfully!");
-            } catch (error) { console.error("Save failed:", error); showToast("Failed to save."); }
+                showToast("System updated successfully!", "success");
+            } catch (error) { console.error("Save failed:", error); AudioEngine.error(); showToast("Failed to save to cloud.", "error"); }
         }
 
         function updateModelFromView() {
@@ -1016,11 +1038,153 @@
             window.open("https://wa.me/" + cleanedNum, '_blank');
             closeWhatsAppModal();
         }
-        function showToast(message) { const toast = document.getElementById('toast-notification'); document.getElementById('toast-message').innerText = message; toast.classList.remove('translate-x-[150%]', 'opacity-0'); setTimeout(() => { toast.classList.add('translate-x-[150%]', 'opacity-0'); }, 3000); }
-        let audioContext = null;
-        function playClickSound() { if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)(); if (audioContext.state === 'suspended') audioContext.resume(); const osc = audioContext.createOscillator(), gain = audioContext.createGain(); osc.connect(gain); gain.connect(audioContext.destination); osc.type = 'sine'; osc.frequency.setValueAtTime(800, audioContext.currentTime); osc.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.05); gain.gain.setValueAtTime(0.08, audioContext.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05); osc.start(); osc.stop(audioContext.currentTime + 0.05); }
-        function playSuccessSound() { if (!audioContext) audioContext = new (window.AudioContext || window.webkitAudioContext)(); if (audioContext.state === 'suspended') audioContext.resume(); const now = audioContext.currentTime, osc1 = audioContext.createOscillator(), osc2 = audioContext.createOscillator(), gain = audioContext.createGain(); osc1.type = 'sine'; osc2.type = 'sine'; osc1.frequency.setValueAtTime(1046.50, now); osc2.frequency.setValueAtTime(1318.51, now); osc1.connect(gain); osc2.connect(gain); gain.connect(audioContext.destination); gain.gain.setValueAtTime(0, now); gain.gain.linearRampToValueAtTime(0.1, now + 0.05); gain.gain.exponentialRampToValueAtTime(0.001, now + 1.5); osc1.start(now); osc2.start(now); osc1.stop(now + 1.5); osc2.stop(now + 1.5); }
-        document.addEventListener('click', function (e) { if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.cursor-pointer')) { playClickSound(); } });
+
+        // ============================================
+        //  PREMIUM AUDIO & NOTIFICATION SYSTEM
+        // ============================================
+
+        // --- AUDIO ENGINE ---
+        const AudioEngine = {
+            ctx: null,
+            init: function () {
+                if (!this.ctx) this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            },
+            playTone: function (freq, type, duration, vol = 0.1) {
+                this.init();
+                if (this.ctx.state === 'suspended') this.ctx.resume();
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+                gain.gain.setValueAtTime(vol, this.ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start();
+                osc.stop(this.ctx.currentTime + duration);
+            },
+            click: function () { // Subtle "Pop" click
+                this.playTone(600, 'sine', 0.1, 0.05);
+            },
+            success: function () { // Ascending chime
+                this.init();
+                const now = this.ctx.currentTime;
+                this.playTone(880, 'sine', 0.2, 0.05); // A5
+                setTimeout(() => this.playTone(1108.73, 'sine', 0.4, 0.05), 100); // C#6
+            },
+            error: function () { // Descending glitch
+                this.init();
+                this.playTone(150, 'sawtooth', 0.3, 0.08);
+                setTimeout(() => this.playTone(100, 'sawtooth', 0.3, 0.08), 100);
+            },
+            delete: function () { // Quick swoosh/crunch
+                this.playTone(200, 'square', 0.15, 0.05);
+            }
+        };
+
+        // Global Click Listener for Sound
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.cursor-pointer') || e.target.tagName === 'INPUT') {
+                AudioEngine.click();
+            }
+        });
+
+        // --- NOTIFICATION SYSTEM ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+
+            // Config based on type
+            const config = {
+                success: { icon: 'check_circle', color: 'text-green-500', border: 'border-green-500/50', bg: 'bg-zinc-900', title: 'Success' },
+                error: { icon: 'error', color: 'text-red-500', border: 'border-red-500/50', bg: 'bg-red-900/90', title: 'Error' },
+                warning: { icon: 'warning', color: 'text-yellow-500', border: 'border-yellow-500/50', bg: 'bg-zinc-900', title: 'Warning' },
+                info: { icon: 'info', color: 'text-blue-500', border: 'border-blue-500/50', bg: 'bg-zinc-900', title: 'Info' }
+            };
+
+            const theme = config[type] || config.info;
+
+            // Create Toast Element
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto w-80 max-w-full ${theme.bg} backdrop-blur-md rounded-xl shadow-2xl border ${theme.border} p-4 flex items-start gap-4 toast-enter text-white`;
+            toast.innerHTML = `
+                <span class="material-icons-outlined mt-0.5 ${theme.color}">${theme.icon}</span>
+                <div class="flex-1">
+                    <h4 class="text-xs font-bold uppercase tracking-wider opacity-70 mb-0.5">${theme.title}</h4>
+                    <p class="text-sm font-medium leading-snug">${message}</p>
+                </div>
+                <button onclick="this.parentElement.classList.replace('toast-enter', 'toast-exit'); setTimeout(() => this.parentElement.remove(), 400)" class="text-white/30 hover:text-white transition">
+                    <span class="material-icons-outlined text-sm">close</span>
+                </button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto Remove
+            setTimeout(() => {
+                if (toast && toast.parentElement) {
+                    toast.classList.replace('toast-enter', 'toast-exit');
+                    setTimeout(() => toast.remove(), 400);
+                }
+            }, 5000);
+        }
+
+        // Override existing sound/toast calls to use new system
+        function playClickSound() { AudioEngine.click(); }
+        function playSuccessSound() { AudioEngine.success(); }
+        // End of overrides
+
+
+        // Global Click Listener for Sound
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.cursor-pointer') || e.target.tagName === 'INPUT') {
+                AudioEngine.click();
+            }
+        });
+
+        // --- NOTIFICATION SYSTEM ---
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+
+            // Config based on type
+            const config = {
+                success: { icon: 'check_circle', color: 'text-green-500', border: 'border-green-500/50', bg: 'bg-zinc-900', title: 'Success' },
+                error: { icon: 'error', color: 'text-red-500', border: 'border-red-500/50', bg: 'bg-red-900/90', title: 'Error' }, // Red bg for error feels more urgent
+                warning: { icon: 'warning', color: 'text-yellow-500', border: 'border-yellow-500/50', bg: 'bg-zinc-900', title: 'Warning' },
+                info: { icon: 'info', color: 'text-blue-500', border: 'border-blue-500/50', bg: 'bg-zinc-900', title: 'Info' }
+            };
+
+            const theme = config[type] || config.info;
+
+            // Create Toast Element
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto w-80 max-w-full ${theme.bg} backdrop-blur-md rounded-xl shadow-2xl border ${theme.border} p-4 flex items-start gap-4 toast-enter text-white`;
+            toast.innerHTML = `
+                <span class="material-icons-outlined mt-0.5 ${theme.color}">${theme.icon}</span>
+                <div class="flex-1">
+                    <h4 class="text-xs font-bold uppercase tracking-wider opacity-70 mb-0.5">${theme.title}</h4>
+                    <p class="text-sm font-medium leading-snug">${message}</p>
+                </div>
+                <button onclick="this.parentElement.classList.replace('toast-enter', 'toast-exit'); setTimeout(() => this.parentElement.remove(), 400)" class="text-white/30 hover:text-white transition">
+                    <span class="material-icons-outlined text-sm">close</span>
+                </button>
+            `;
+
+            container.appendChild(toast);
+
+            // Auto Remove
+            setTimeout(() => {
+                if (toast && toast.parentElement) {
+                    toast.classList.replace('toast-enter', 'toast-exit');
+                    setTimeout(() => toast.remove(), 400);
+                }
+            }, 5000); // 5 seconds
+        }
+
+        // Override existing sound/toast calls to use new system
+        function playClickSound() { AudioEngine.click(); }
+        function playSuccessSound() { AudioEngine.success(); }
+        // End of overrides 
+
         function openAdminLogin() { const modal = document.getElementById('admin-modal'), container = document.getElementById('admin-modal-container'); modal.classList.remove('hidden'); setTimeout(() => { modal.classList.remove('opacity-0'); container.classList.remove('scale-95'); container.classList.add('scale-100'); }, 10); document.getElementById('admin-password-input').value = ''; document.getElementById('admin-error').classList.add('hidden'); }
         function closeAdminLogin() { const modal = document.getElementById('admin-modal'), container = document.getElementById('admin-modal-container'); modal.classList.add('opacity-0'); container.classList.remove('scale-100'); container.classList.add('scale-95'); setTimeout(() => { modal.classList.add('hidden'); }, 300); }
         function submitAdminLogin() { if (document.getElementById('admin-password-input').value === appData.adminPassword) { closeAdminLogin(); enableAdminMode(); } else { document.getElementById('admin-error').classList.remove('hidden'); } }
